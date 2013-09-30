@@ -4,6 +4,6 @@ public class Intro {
 
 	
 	public static void main(String[] args){
-		
+		//A miks sa oled siis aplikatsioon
 	}
 }
