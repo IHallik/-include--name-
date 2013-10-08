@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." name="POS" default="build">
-	
+
 	<property name="build.dir"			value="${basedir}/build"/>
 	<property name="build.classes.dir"	value="${build.dir}/classes"/>
 	<property name="build.jar.dir"		value="${build.dir}/jar"/>
 	<property name="src.dir"			value="${basedir}/src"/>
-	
+
 	<propertyfile file="application.properties">
 		<entry key="main.class"			default="ee.ut.math.tvt.includeName.Intro" />
 		<entry key="jar.name"			default="includeName.jar" />
 	</propertyfile>
-	
+
 	<property file="application.properties"/>
 
 	<path id="jrun.classpath">
@@ -37,14 +37,14 @@
 
 		<!-- Compile -->
 		<javac
-            srcdir="${src.dir}"
-            destdir="${build.classes.dir}"
-            debug="true"
-            debuglevel="lines,vars,source"
-            encoding="utf-8"
-            compiler="modern"
-            target="1.7"
-            source="1.7"
+			srcdir="${src.dir}"
+			destdir="${build.classes.dir}"
+			debug="true"
+			debuglevel="lines,vars,source"
+			encoding="utf-8"
+			compiler="modern"
+			target="1.7"
+			source="1.7"
 			includeantruntime="false">
 			<classpath refid="run.classpath"/>
 		</javac>
@@ -70,8 +70,12 @@
 
 		<!-- Build the jar file -->
 		<jar destfile="${build.jar.dir}/${jar.name}" basedir="${build.classes.dir}">
+			<fileset dir="${basedir}">
+				<include name="*.properties" />
+			</fileset>
 			<manifest>
 				<attribute name="Main-Class" value="${main.class}" />
+				<attribute name="Class-Path" value="."/>
 			</manifest>
 		</jar>
 	</target>
