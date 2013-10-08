@@ -82,20 +82,6 @@
 		<mkdir dir="${build.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
 
-		<!-- Update revision number and write build number to version.properties -->
-		<propertyfile file="version.properties">
-			<entry key="build.revision.number" type="int" value="1" operation="+" pattern="000" />
-			<entry key="build.minor.number" type="int" value="0" pattern="00" />
-			<entry key="build.major.number" type="int" value="0" pattern="0" />
-		</propertyfile>
-		<property file="version.properties"/>
-		<propertyfile file="version.properties">
-			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
-		</propertyfile>
-		
-		<!-- Remove timestamp comment -->
-		<replaceregexp file="version.properties" match="^#.*?\n" replace=""/>
-
 		<!-- Compile -->
 		<javac
             srcdir="${src.dir}"
@@ -113,6 +99,27 @@
 
 	<target name="clean" description="Clean up build system results">
 		<delete dir="${build.dir}"/>
+	</target>
+	
+	<target name="dist" description="Compile the project .jar file">
+		<mkdir dir="build/jar"/>
+		
+		<!-- Update revision number and write build number to version.properties -->
+		<propertyfile file="version.properties">
+			<entry key="build.revision.number" type="int" value="1" operation="+" pattern="000" />
+			<entry key="build.minor.number" type="int" value="0" pattern="00" />
+			<entry key="build.major.number" type="int" value="0" pattern="0" />
+		</propertyfile>
+		<property file="version.properties"/>
+		<propertyfile file="version.properties">
+			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
+		</propertyfile>
+		
+		<!-- Build the jar file -->
+	</target>
+	
+	<target name="jrun" description="Run the compiled .jar file">
+		
 	</target>
 
 </project>
