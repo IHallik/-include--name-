@@ -69,6 +69,10 @@
 			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
 		</propertyfile>
 
+		<manifestclasspath property="jar.classpath" jarfile="${build.jar.dir}/${jar.name}">
+			<classpath refid="jrun.classpath" />
+		</manifestclasspath>
+
 		<!-- Build the jar file -->
 		<jar destfile="${build.jar.dir}/${jar.name}" basedir="${build.classes.dir}">
 			<fileset dir="${basedir}">
@@ -79,7 +83,7 @@
 			</fileset>
 			<manifest>
 				<attribute name="Main-Class" value="${main.class}" />
-				<attribute name="Class-Path" value="."/>
+				<attribute name="Class-Path" value="${jar.classpath}"/>
 			</manifest>
 		</jar>
 	</target>
