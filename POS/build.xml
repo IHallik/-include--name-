@@ -6,6 +6,7 @@
 	<property name="build.jar.dir"		value="${build.dir}/jar"/>
 	<property name="src.dir"			value="${basedir}/src"/>
 	<property name="lib.dir"			value="${basedir}/lib"/>
+	<property name="etc.dir"			value="${basedir}/etc"/>
 
 	<propertyfile file="application.properties">
 		<entry key="main.class"			default="ee.ut.math.tvt.includeName.Intro" />
@@ -77,9 +78,9 @@
 		<jar destfile="${build.jar.dir}/${jar.name}" basedir="${build.classes.dir}">
 			<fileset dir="${basedir}">
 				<include name="*.properties" />
-				<!-- No idea if external libraries should be added to the jar
-					<include name="lib/*.jar" />
-				-->
+			</fileset>
+			<fileset dir="${etc.dir}">
+				<include name="*" />
 			</fileset>
 			<manifest>
 				<attribute name="Main-Class" value="${main.class}" />
