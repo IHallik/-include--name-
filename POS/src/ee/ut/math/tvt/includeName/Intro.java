@@ -10,8 +10,6 @@ public class Intro {
 		* in the log that would indicate that intro window is opened.
 		* Use Log4J functionality for it. Log should have event time
 		* and name of the component (invocated class name)
-		* 
-		* Palun confige log4J ära
 		*/
 		log.info("Intro window opened");
 		System.out.println("A miks sa oled siis aplikatsioon?");
