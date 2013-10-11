@@ -13,6 +13,8 @@ public class Intro {
 		*/
 		log.info("Intro window opened");
 		System.out.println("A miks sa oled siis aplikatsioon?");
-		IntroUI.display();
+		
+		IntroUI ui = new IntroUI();
+		ui.display();
 	}
 }
