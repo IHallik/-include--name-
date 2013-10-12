@@ -14,8 +14,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import org.apache.log4j.Logger;
+
 public class IntroUI {
 	static JFrame UIFrame;
+	private static final Logger log = Logger.getLogger(IntroUI.class);	//For every "Catch" block, add a call to this
+	//TODO Discuss what exactly do we want to catch with this logger.
 	
 	public void display() {
 		UIFrame = new JFrame();
@@ -32,12 +36,14 @@ public class IntroUI {
 			appProp.load(new FileInputStream("application.properties"));
 			verProp.load(new FileInputStream("version.properties"));
 		} catch(Exception e) {
+			log.debug(e.getMessage());
 			System.err.println("Failed to load properties files!");
 		}
 		
 		try {
 			teamIcon = ImageIO.read(new File("etc/"+appProp.getProperty("team.logo.file")));
 		} catch (IOException e) {
+			log.debug(e.getMessage());
 			System.err.println("Team image file not found!");
 		}
 		

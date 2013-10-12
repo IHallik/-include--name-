@@ -11,9 +11,7 @@ public class Intro {
 		* Use Log4J functionality for it. Log should have event time
 		* and name of the component (invocated class name)
 		*/
-		log.info("Intro window opened");
-		System.out.println("A miks sa oled siis aplikatsioon?");
-		
+		log.info("Intro window opened");		
 		IntroUI ui = new IntroUI();
 		ui.display();
 	}
