@@ -3,3 +3,6 @@
 
 #compiled binaries
 /bin
+
+#log files
+*.log
