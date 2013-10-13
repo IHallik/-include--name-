@@ -16,9 +16,7 @@
 	<property file="application.properties"/>
 
 	<path id="jrun.classpath">
-		<fileset dir="lib">
-			<include name="*.jar"/>
-		</fileset>
+		<!-- TODO: What used to be here isn't needed anymore; deal with this block -->
 	</path>
 
 	<path id="run.classpath">
@@ -27,6 +25,8 @@
 		<fileset dir="lib">
 			<include name="*.jar"/>
 		</fileset>
+		<!-- Not semantic, but works with getResource loaders -->
+		<pathelement location="${basedir}"/>
 	</path>
 
 	<target name="run" depends="build" description="Run the application">
@@ -81,7 +81,12 @@
 			</fileset>
 			<fileset dir="${etc.dir}">
 				<include name="*" />
+				<exclude name="logo.png" />
 			</fileset>
+			<fileset dir=".">
+				<include name="etc/logo.png" />
+			</fileset>
+			<zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
 			<manifest>
 				<attribute name="Main-Class" value="${main.class}" />
 				<attribute name="Class-Path" value="${jar.classpath}"/>

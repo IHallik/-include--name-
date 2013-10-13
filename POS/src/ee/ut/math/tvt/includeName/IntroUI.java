@@ -4,8 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -33,15 +31,15 @@ public class IntroUI {
 		BufferedImage teamIcon = null;
 		
 		try {
-			appProp.load(new FileInputStream("application.properties"));
-			verProp.load(new FileInputStream("version.properties"));
+			appProp.load(getClass().getResourceAsStream("/application.properties"));
+			verProp.load(getClass().getResourceAsStream("/version.properties"));
 		} catch(Exception e) {
 			log.debug(e.getMessage());
 			System.err.println("Failed to load properties files!");
 		}
 		
 		try {
-			teamIcon = ImageIO.read(new File("etc/"+appProp.getProperty("team.logo.file")));
+			teamIcon = ImageIO.read(getClass().getResource("/etc/"+appProp.getProperty("team.logo.file")));
 		} catch (IOException e) {
 			log.debug(e.getMessage());
 			System.err.println("Team image file not found!");
