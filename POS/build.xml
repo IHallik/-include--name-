@@ -84,5 +84,41 @@
 		<java jar="${build.jar.dir}/${jar.name}" fork="true"/>
 	</target>
 
+	<target name="git_commit" description="Commit changes to Git">
+		<input message="Commit message" addproperty="commit.message" />
+		<echo message="Commiting all changes with message ${commit.message}" />
+		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
+			<arg value="add" />
+			<arg value="-A" />
+		</exec>
+		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
+			<arg value="commit" />
+			<arg value="-m" />
+			<arg value="${commit.message}" />
+		</exec>
+		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
+			<arg value="push" />
+		</exec>
+	</target>
+
+	<target name="git_tag" description="Tag homework">
+		<input message="Homework number:" addproperty="tag.number" />
+		<condition property="tag.is.integer">
+			<matches pattern="^[1-9]+$" string="${tag.number}" />
+		</condition>
+		<fail message="Your input is incorrect" unless="tag.is.integer" />
+		<echo message="Tagging Homework ${tag.number}" />
+		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
+			<arg value="tag" />
+			<arg value="-a" />
+			<arg value="homework_${tag.number}" />
+			<arg value="-m" />
+			<arg value="Homework ${tag.number}" />
+		</exec>
+		<exec executable="git" dir="${basedir}" failifexecutionfails="false" errorproperty="">
+			<arg value="push" />
+			<arg value="--tags" />
+		</exec>
+	</target>
 </project>
 
