@@ -15,18 +15,14 @@
 
 	<property file="application.properties"/>
 
-	<path id="jrun.classpath">
-		<!-- TODO: What used to be here isn't needed anymore; deal with this block -->
-	</path>
-
 	<path id="run.classpath">
+		<pathelement location="${basedir}"/>
 		<pathelement location="${build.classes.dir}"/>
 		<pathelement location="${etc.dir}"/>
+		
 		<fileset dir="lib">
 			<include name="*.jar"/>
 		</fileset>
-		<!-- Not semantic, but works with getResource loaders -->
-		<pathelement location="${basedir}"/>
 	</path>
 
 	<target name="run" depends="build" description="Run the application">
@@ -70,32 +66,22 @@
 			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
 		</propertyfile>
 
-		<manifestclasspath property="jar.classpath" jarfile="${build.jar.dir}/${jar.name}">
-			<classpath refid="jrun.classpath" />
-		</manifestclasspath>
-
 		<!-- Build the jar file -->
 		<jar destfile="${build.jar.dir}/${jar.name}" basedir="${build.classes.dir}">
 			<fileset dir="${basedir}">
 				<include name="*.properties" />
+				<include name="etc/*" />
 			</fileset>
-			<fileset dir="${etc.dir}">
-				<include name="*" />
-				<exclude name="logo.png" />
-			</fileset>
-			<fileset dir=".">
-				<include name="etc/logo.png" />
-			</fileset>
-			<zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
+			<zipgroupfileset dir="lib" includes="*.jar" />
 			<manifest>
 				<attribute name="Main-Class" value="${main.class}" />
-				<attribute name="Class-Path" value="${jar.classpath}"/>
+				<attribute name="Class-Path" value=". etc/"/>
 			</manifest>
 		</jar>
 	</target>
 
 	<target name="jrun" depends="dist" description="Run the compiled .jar file">
-		<java jar="${build.jar.dir}/${jar.name}" classpathref="jrun.classpath" fork="true"/>
+		<java jar="${build.jar.dir}/${jar.name}" fork="true"/>
 	</target>
 
 </project>
