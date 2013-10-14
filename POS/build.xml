@@ -12,6 +12,7 @@
 		<entry key="main.class"			default="ee.ut.math.tvt.includeName.Intro" />
 		<entry key="jar.name"			default="includeName.jar" />
 	</propertyfile>
+	<replaceregexp file="application.properties" match="^#.*?\n" replace="" byline="false" />
 
 	<property file="application.properties"/>
 
@@ -65,6 +66,7 @@
 		<propertyfile file="version.properties">
 			<entry key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
 		</propertyfile>
+		<replaceregexp file="application.properties" match="^#.*?\n" replace="" byline="false" />
 
 		<!-- Build the jar file -->
 		<jar destfile="${build.jar.dir}/${jar.name}" basedir="${build.classes.dir}">
