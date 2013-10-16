@@ -80,7 +80,14 @@ public class IntroUI {
 		c.gridheight = yPos-1;
 		UIFrame.add(new JLabel(new ImageIcon(teamIcon.getScaledInstance(128, 128, Image.SCALE_SMOOTH))), c);
 
-		UIFrame.setVisible(true);
 		UIFrame.repaint();
+	}
+	
+	public void setVisible(boolean val) {
+		UIFrame.setVisible(val);
+	}
+	
+	public void setAlwaysOnTop(boolean val) {
+		UIFrame.setAlwaysOnTop(val);
 	}
 }
