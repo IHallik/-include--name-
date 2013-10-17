@@ -1,93 +1,73 @@
 package ee.ut.math.tvt.includeName;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.net.URL;
 import java.util.Properties;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.apache.log4j.Logger;
 
-public class IntroUI {
-	static JFrame UIFrame;
+public class IntroUI extends JFrame {
 	private static final Logger log = Logger.getLogger(IntroUI.class);	//For every "Catch" block, add a call to this
 	//TODO Discuss what exactly do we want to catch with this logger.
 	
-	public void display() {
-		UIFrame = new JFrame();
-		GridBagConstraints c = new GridBagConstraints();
-		UIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		UIFrame.setSize(420, 200);
-		UIFrame.setLayout(new GridBagLayout());
+	public IntroUI() {		
+		setUndecorated(true);	//Remove borders
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		int width = 420;
+		int height = 200;
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation((screen.width - width) / 2, (screen.height - height) / 2);
+		setSize(width, height);
 		
 		Properties appProp = new Properties();
 		Properties verProp = new Properties();
-		BufferedImage teamIcon = null;
 		
 		try {
 			appProp.load(getClass().getResourceAsStream("/application.properties"));
 			verProp.load(getClass().getResourceAsStream("/version.properties"));
 		} catch(Exception e) {
-			log.debug(e.getMessage());
-			System.err.println("Failed to load properties files!");
+			log.error("Failed to load properties files!");
+			log.error(e.getMessage());
 		}
-		
-		try {
-			teamIcon = ImageIO.read(getClass().getResource("/etc/"+appProp.getProperty("team.logo.file")));
-		} catch (IOException e) {
-			log.debug(e.getMessage());
-			System.err.println("Team image file not found!");
-		}
-		
+
+		URL logoURL = getClass().getResource("/etc/"+appProp.getProperty("team.logo.file"));
 		String members[] = appProp.getProperty("team.members").split(",");
+		
+		//TODO: Replace hardcoded html with template reading from file
+		String layout =
+	"<html>"
++		"<table>"
++			"<tr>"
++				"<td>Team name</td>"
++				"<td>"+appProp.getProperty("team.name")+"</td>"
++				"<td rowspan=5><img height=128 width=128 src='"+logoURL+"'/></td>"
++			"</tr>"
++			"<tr>"
++				"<td>Team leader</td>"
++				"<td>"+appProp.getProperty("team.leader")+"</td>"
++			"</tr>"
++			"<tr>"
++				"<td>Team leader email</td>"
++				"<td>"+appProp.getProperty("team.leader.email")+"</td>"
++			"</tr>"
++			"<tr>"
++				"<td>Members</td>"
++				"<td>"+members[0]+"<br>"+members[1]+"<br>"+members[2]+"<br>"+members[3]+"</td>"
++			"</tr>"
++			"<tr>"
++				"<td>Version</td>"
++				"<td>"+verProp.getProperty("build.number")+"</td>"
++			"</tr>"
++		"</table>"
++	"</html>";
+		
+		add(new JLabel(layout));
 
-		int yPos = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipadx = 20;
-		c.gridx = 0;
-		c.gridy = yPos++;
-		UIFrame.add(new JLabel("Team name:  "
-				+ appProp.getProperty("team.name")), c);
-		
-		c.gridy = yPos++;
-		UIFrame.add(new JLabel("Team leader:  "
-				+ appProp.getProperty("team.leader")), c);
-		
-		c.gridy = yPos++;
-		UIFrame.add(new JLabel("Team leader email:  "
-				+ appProp.getProperty("team.leader.email")), c);
-		
-		c.gridy = yPos++;
-		UIFrame.add(new JLabel("Members:"), c);
-		
-		for (int i = 0; i < members.length; i++) {
-			c.gridy = yPos++;
-			UIFrame.add(new JLabel("        " + members[i]), c);
-		}
-		
-		c.gridy = yPos++;
-		UIFrame.add(new JLabel("Version:  "
-				+ verProp.getProperty("build.number")), c);
-		
-		c.gridy = 0;
-		c.gridx = 1;
-		c.gridheight = yPos-1;
-		UIFrame.add(new JLabel(new ImageIcon(teamIcon.getScaledInstance(128, 128, Image.SCALE_SMOOTH))), c);
-
-		UIFrame.repaint();
-	}
-	
-	public void setVisible(boolean val) {
-		UIFrame.setVisible(val);
-	}
-	
-	public void setAlwaysOnTop(boolean val) {
-		UIFrame.setAlwaysOnTop(val);
+		repaint();
 	}
 }
