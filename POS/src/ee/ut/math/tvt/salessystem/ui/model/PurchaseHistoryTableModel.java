@@ -23,7 +23,9 @@ public class PurchaseHistoryTableModel extends
 		try {
 			return item.getColumn(columnIndex);
 		} catch (RuntimeException e) {
-			throw new IllegalArgumentException("Column index out of range");
+			throw new IllegalArgumentException("Column index out of range:" + columnIndex +
+					" Column count:" + getColumnCount() + "\n" +
+					"Error:" + e);
 		}
 	}
 
@@ -52,6 +54,7 @@ public class PurchaseHistoryTableModel extends
 	 * @throws IllegalArgumentException
 	 */
 	public void addItem(final HistoryItem item) throws IllegalArgumentException {
+		rows.add(item);
 		log.debug("Purchase at " + item.getOrderTimeString() + " recorded with total=" + item.getOrderPrice());
 		fireTableDataChanged();
 	}

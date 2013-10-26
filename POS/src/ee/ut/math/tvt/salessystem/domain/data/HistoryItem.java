@@ -15,9 +15,12 @@ public class HistoryItem implements DisplayableItem {
 	private Calendar orderDateTime;
 	private double priceTotal;
 	private List<SoldItem> cart;
+	
+	static long counter = 0;
 
 	public HistoryItem(List<SoldItem> cart) {
 		this.cart = cart;
+		id = counter++;
 		orderDateTime = new GregorianCalendar();
 		priceTotal = 0;
 
@@ -39,12 +42,12 @@ public class HistoryItem implements DisplayableItem {
 	}
 	
 	public String getOrderDateString() {
-		DateFormat df = new SimpleDateFormat("d.M.yyyy");
+		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		return df.format(orderDateTime.getTime());
 	}
 	
 	public String getOrderTimeString() {
-		DateFormat df = new SimpleDateFormat("H:m:s");
+		DateFormat df = new SimpleDateFormat("HH:mm:ss");
 		return df.format(orderDateTime.getTime());
 	}
 

@@ -8,7 +8,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 /**
@@ -19,6 +24,11 @@ public class HistoryTab {
 
 	SalesSystemModel model;
 	
+	PurchaseInfoTableModel purchase;
+	
+	JTable soldItemTable;
+	JTable purchasesTable;
+	
     public HistoryTab(SalesSystemModel model) {
         this.model = model;
     }
@@ -27,20 +37,41 @@ public class HistoryTab {
         JPanel panel = new JPanel();
         
         panel.setLayout(new GridBagLayout());
+        
+        purchase = new PurchaseInfoTableModel();
 
-		JTable purchasesTable = new JTable(model.getPurchaseHistoryTableModel());
-		JTable soldItemTable = new JTable();
+		purchasesTable = new JTable(model.getPurchaseHistoryTableModel());
+		soldItemTable = new JTable(purchase);
 		
 		JScrollPane purchasesScrollPane = new JScrollPane(purchasesTable);
 		purchasesScrollPane.setBorder(BorderFactory.createTitledBorder("Order History"));
 		
 		JScrollPane soldItemScrollPane = new JScrollPane(soldItemTable);
 		soldItemScrollPane.setBorder(BorderFactory.createTitledBorder("Order details"));
+		
+		purchasesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				PurchaseSelected();
+			}
+		});
 
 		panel.add(purchasesScrollPane, getPurchasesScrollPaneConstraints1());
 		panel.add(soldItemScrollPane, getItemScrollPaneConstraints());
         
         return panel;
+    }
+    
+    private void PurchaseSelected() {
+    	purchase.clear();
+    	
+    	int selected = purchasesTable.getSelectedRow();
+    	
+    	if(selected == -1) return;
+    	
+    	HistoryItem cur = model.getPurchaseHistoryTableModel().getTableRows().get(selected);
+    	for(SoldItem item : cur.getStockItemList()) {
+    		purchase.addItem(item);
+    	}
     }
     
     private GridBagConstraints getPurchasesScrollPaneConstraints1() {
