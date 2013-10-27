@@ -37,9 +37,9 @@ public class SalesSystemModel {
     public StockTableModel getWarehouseTableModel() {
         return warehouseTableModel;
     }
-
+    
     public PurchaseInfoTableModel getCurrentPurchaseTableModel() {
         return currentPurchaseTableModel;
     }
-    
+        
 }
