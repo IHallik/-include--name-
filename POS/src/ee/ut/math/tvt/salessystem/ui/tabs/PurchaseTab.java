@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
- * labelled "Point-of-sale" in the menu).
+ * labeled "Point-of-sale" in the menu).
  */
 public class PurchaseTab {
 

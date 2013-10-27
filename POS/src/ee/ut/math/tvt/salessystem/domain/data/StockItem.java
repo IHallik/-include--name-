@@ -84,7 +84,9 @@ public class StockItem implements Cloneable, DisplayableItem {
     }
 
     public String toString() {
-        return id + " " + name + " " + description + " " + price;
+    	//Used in combobox
+        //return id + " " + name + " " + description + " " + price;
+    	return getName();
     }
 
     /**
