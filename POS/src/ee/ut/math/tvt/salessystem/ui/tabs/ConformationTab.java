@@ -6,19 +6,22 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.MaskFormatter;
 
 public class ConformationTab {
 
-	public static JFrame popUpWindow(final double totalCost) {
+	public static JFrame popUpWindow(final double totalCost) throws ParseException {
 		final JFrame item = new JFrame();
 		item.setAlwaysOnTop(true);
 		item.setSize(new Dimension(200, 200));
@@ -29,10 +32,14 @@ public class ConformationTab {
 		popUp.setLayout(new GridBagLayout());
 		popUp.setSize(200, 200);
 		GridBagConstraints c = new GridBagConstraints();
-		final JTextField moneyBack = new JTextField();
+		final JFormattedTextField moneyBack = new JFormattedTextField();
+		//MaskFormatter dateMask = new MaskFormatter("####.##");
+		//dateMask.install(moneyBack);
 		moneyBack.setEditable(false);
 		JLabel costDisplay = new JLabel("Your order cost is : " + totalCost);
-		final JTextField payMoney = new JTextField("Payment Amount");
+		final JFormattedTextField payMoney = new JFormattedTextField("Payment Amount");
+		//dateMask.install(payMoney);
+		
 		item.add(popUp);
 		payMoney.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -73,11 +80,17 @@ public class ConformationTab {
 		c.gridy = 0;
 		popUp.add(costDisplay, c);
 
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
 		popUp.add(payMoney, c);
 
 		c.gridx = 0;
+		c.gridy = 2;
+		JLabel dp = new JLabel("Payment Amount");
+		popUp.add(dp, c);
+		
+		c.gridx = 1;
 		c.gridy = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		popUp.add(moneyBack, c);
@@ -89,13 +102,12 @@ public class ConformationTab {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try{
-				if(Double.parseDouble(moneyBack.getText())>=0.0){
-					item.dispose();
-				}
-				}catch(NumberFormatException e)
-				{
-					
+				try {
+					if (Double.parseDouble(moneyBack.getText()) >= 0.0) {
+						item.dispose();
+					}
+				} catch (NumberFormatException e) {
+
 				}
 			}
 
