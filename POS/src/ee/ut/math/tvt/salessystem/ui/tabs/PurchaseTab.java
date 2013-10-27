@@ -29,22 +29,22 @@ public class PurchaseTab {
 
   private final SalesDomainController domainController;
 
-  private JButton newPurchase;
+  static JButton newPurchase;
 
-  private JButton submitPurchase;
+  static JButton submitPurchase;
 
-  private JButton cancelPurchase;
+  static JButton cancelPurchase;
 
-  private PurchaseItemPanel purchasePane;
+  static PurchaseItemPanel purchasePane;
 
-  private SalesSystemModel model;
+  private static SalesSystemModel model;
 
 
   public PurchaseTab(SalesDomainController controller,
       SalesSystemModel model)
   {
     this.domainController = controller;
-    this.model = model;
+    this.setModel(model);
   }
 
 
@@ -63,7 +63,7 @@ public class PurchaseTab {
     panel.add(getPurchaseMenuPane(), getConstraintsForPurchaseMenu());
 
     // Add the main purchase-panel
-    purchasePane = new PurchaseItemPanel(model);
+    purchasePane = new PurchaseItemPanel(getModel());
     panel.add(purchasePane, getConstraintsForPurchasePanel());
 
     return panel;
@@ -95,8 +95,8 @@ public class PurchaseTab {
   
   private double getTotalCost(){
 	  double total=0;
-	  for(int i=0;i<model.getCurrentPurchaseTableModel().getRowCount();i++){
-		  total+=(double)model.getCurrentPurchaseTableModel().getValueAt(i, 4);
+	  for(int i=0;i<getModel().getCurrentPurchaseTableModel().getRowCount();i++){
+		  total+=(double)getModel().getCurrentPurchaseTableModel().getValueAt(i, 4);
 	  }
 	  return total;
   }
@@ -173,7 +173,7 @@ public class PurchaseTab {
     try {
       domainController.cancelCurrentPurchase();
       endSale();
-      model.getCurrentPurchaseTableModel().clear();
+      getModel().getCurrentPurchaseTableModel().clear();
     } catch (VerificationFailedException e1) {
       log.error(e1.getMessage());
     }
@@ -184,12 +184,12 @@ public class PurchaseTab {
   protected void submitPurchaseButtonClicked() {
     log.info("Sale complete");
     try {
-      log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
+      log.debug("Contents of the current basket:\n" + getModel().getCurrentPurchaseTableModel());
       domainController.submitCurrentPurchase(
-          model.getCurrentPurchaseTableModel().getTableRows()
+          getModel().getCurrentPurchaseTableModel().getTableRows()
       );
       endSale();
-      model.getCurrentPurchaseTableModel().clear();
+      //getModel().getCurrentPurchaseTableModel().clear();
     } catch (VerificationFailedException e1) {
       log.error(e1.getMessage());
     }
@@ -266,5 +266,15 @@ public class PurchaseTab {
 
     return gc;
   }
+
+
+public static SalesSystemModel getModel() {
+	return model;
+}
+
+
+public void setModel(SalesSystemModel model) {
+	this.model = model;
+}
 
 }

@@ -104,6 +104,7 @@ public class ConformationTab {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					if (Double.parseDouble(moneyBack.getText()) >= 0.0) {
+						PurchaseTab.getModel().getCurrentPurchaseTableModel().clear();
 						item.dispose();
 					}
 				} catch (NumberFormatException e) {
@@ -121,6 +122,10 @@ public class ConformationTab {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				PurchaseTab.purchasePane.setEnabled(true);
+				PurchaseTab.submitPurchase.setEnabled(true);
+				PurchaseTab.cancelPurchase.setEnabled(true);
+				PurchaseTab.newPurchase.setEnabled(false);
 				item.dispose();
 
 			}
