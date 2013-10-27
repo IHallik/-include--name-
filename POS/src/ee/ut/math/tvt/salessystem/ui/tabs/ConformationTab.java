@@ -32,12 +32,12 @@ public class ConformationTab {
 		popUp.setLayout(new GridBagLayout());
 		popUp.setSize(200, 200);
 		GridBagConstraints c = new GridBagConstraints();
-		final JFormattedTextField moneyBack = new JFormattedTextField();
+		final DoubleField moneyBack = new DoubleField();
 		//MaskFormatter dateMask = new MaskFormatter("####.##");
 		//dateMask.install(moneyBack);
 		moneyBack.setEditable(false);
 		JLabel costDisplay = new JLabel("Your order cost is : " + totalCost);
-		final JFormattedTextField payMoney = new JFormattedTextField("Payment Amount");
+		final DoubleField payMoney = new DoubleField();
 		//dateMask.install(payMoney);
 		
 		item.add(popUp);
