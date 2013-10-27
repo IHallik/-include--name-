@@ -99,7 +99,7 @@ public class ConformationTab {
 		c.gridx = 1;
 		c.gridy = 3;
 		JButton cancel = new JButton("Cancel");
-		confirm.addActionListener(new ActionListener() {
+		cancel.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
