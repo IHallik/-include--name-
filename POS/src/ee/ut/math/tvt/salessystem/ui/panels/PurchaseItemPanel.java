@@ -82,7 +82,6 @@ public class PurchaseItemPanel extends JPanel {
 
 	// purchase dialog
 	private JComponent drawDialogPane() {
-
 		// Create the panel
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
