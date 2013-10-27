@@ -89,8 +89,14 @@ public class ConformationTab {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				item.dispose();
-
+				try{
+				if(Double.parseDouble(moneyBack.getText())>=0.0){
+					item.dispose();
+				}
+				}catch(NumberFormatException e)
+				{
+					
+				}
 			}
 
 		});
