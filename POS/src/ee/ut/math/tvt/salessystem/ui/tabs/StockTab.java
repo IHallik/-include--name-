@@ -105,18 +105,11 @@ public class StockTab {
     GridBagLayout gb = new GridBagLayout();    
     panel.setLayout(gb);    
     
-    GridBagConstraints gc_L = new GridBagConstraints();
-    gc_L.fill = GridBagConstraints.HORIZONTAL;
-    gc_L.anchor = GridBagConstraints.WEST;
-    gc_L.gridwidth = GridBagConstraints.REMAINDER;
-    gc_L.fill = GridBagConstraints.BOTH;
-    
-    GridBagConstraints gc_R = new GridBagConstraints();
-    gc_R.fill = GridBagConstraints.HORIZONTAL;
-    gc_R.anchor = GridBagConstraints.EAST;
-    gc_R.gridwidth = GridBagConstraints.REMAINDER;
-    gc_R.fill = GridBagConstraints.BOTH;
-    
+    GridBagConstraints gc = new GridBagConstraints();
+    gc.fill = GridBagConstraints.HORIZONTAL;
+    gc.anchor = GridBagConstraints.NORTH;
+    gc.gridwidth = GridBagConstraints.REMAINDER;
+    gc.fill = GridBagConstraints.BOTH;    
     
     JButton addNewProductButton = new JButton("Add new Product");
     JLabel idLabel = new JLabel("Id:");
@@ -131,22 +124,22 @@ public class StockTab {
     JTextField priceTextField = new DoubleField();
     JTextField quantityTextField = new IntegerField();
     
-    panel.add(idLabel,gc_L);
-    panel.add(idTextField,gc_R);
+    panel.add(idLabel,gc);
+    panel.add(idTextField,gc);
     
-    panel.add(nameLabel,gc_L);
-    panel.add(nameTextField,gc_R);
+    panel.add(nameLabel,gc);
+    panel.add(nameTextField,gc);
     
-    panel.add(descriptionLabel,gc_L);
-    panel.add(descriptionTextField,gc_R);
+    panel.add(descriptionLabel,gc);
+    panel.add(descriptionTextField,gc);
     
-    panel.add(priceLabel,gc_L);
-    panel.add(priceTextField,gc_R);
+    panel.add(priceLabel,gc);
+    panel.add(priceTextField,gc);
     
-    panel.add(quantityLabel,gc_L); 
-    panel.add(quantityTextField,gc_R);
+    panel.add(quantityLabel,gc); 
+    panel.add(quantityTextField,gc);
     
-    panel.add(addNewProductButton,gc_R);
+    panel.add(addNewProductButton,gc);
     
     panel.setSize(160, 250);
     panel.setResizable(false);
@@ -159,8 +152,7 @@ public class StockTab {
     									descriptionLabel.getText(), 
     									Double.parseDouble(priceTextField.getText()),
     									Integer.parseInt(quantityTextField.getText())
-    									);
-    
+    									);   
     
   }
   
