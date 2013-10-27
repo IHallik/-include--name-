@@ -115,8 +115,8 @@ public class PurchaseTab {
     JButton b = new JButton("Confirm");
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
+    	  ConformationTab.popUpWindow(getTotalCost()).setVisible(true);
         submitPurchaseButtonClicked();
-        ConformationTab.popUpWindow(getTotalCost()).setVisible(true);
       }
     });
     b.setEnabled(false);
