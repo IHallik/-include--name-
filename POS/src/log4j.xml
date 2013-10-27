@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+   <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender"> 
+    <param name="Target" value="System.out"/> 
+    <layout class="org.apache.log4j.PatternLayout"> 
+      <param name="ConversionPattern" value="%d{ISO8601} %-5p %c{1} - %m%n "/> 
+    </layout> 
+  </appender> 
+  <appender name="fileAppender" class="org.apache.log4j.FileAppender"> 
+    <param name="file" value="introLog.log"/> 
+    <layout class="org.apache.log4j.PatternLayout"> 
+      <param name="ConversionPattern" value="%d{ISO8601} %-5p %c{1} - %m%n "/> 
+    </layout> 
+  </appender> 
+  <!-- Adding this, just in case we need debugging in a further release -->
+  <logger name="ee.ut.math.tvt.includeName" additivity="false">
+    <level value="debug" /> 
+    <appender-ref ref="fileAppender"/>
+  </logger>
+  <logger name="ee.ut.math.tvt.includeName" additivity="false">
+    <level value="info" /> 
+    <appender-ref ref="consoleAppender"/>
+  </logger>
+
+  <root>
+    <priority value="INFO"/>
+    <appender-ref ref="fileAppender"/>
+  </root>
+
+</log4j:configuration>
