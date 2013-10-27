@@ -185,15 +185,22 @@ public class PurchaseItemPanel extends JPanel {
 				quantity = 1;
 			}
 
-			try {
-            	model.getCurrentPurchaseTableModel()
-            		.addItem(new SoldItem(stockItem, quantity));
-            } catch (IllegalArgumentException iae) {
-            	JOptionPane.showMessageDialog(null,
-            		    "Warehouse has less than the requested quantity of that item.",
-            		    "Warning",
-            		    JOptionPane.WARNING_MESSAGE);
-            }
+			if(quantity > 0) {
+				try {
+	            	model.getCurrentPurchaseTableModel()
+	            		.addItem(new SoldItem(stockItem, quantity));
+	            } catch (IllegalArgumentException iae) {
+	            	JOptionPane.showMessageDialog(null,
+	            		    "Warehouse has less than the requested quantity of that item.",
+	            		    "Warning",
+	            		    JOptionPane.WARNING_MESSAGE);
+	            }	
+			} else {
+				JOptionPane.showMessageDialog(null,
+            		    "Quantity must be 1 or greater.",
+            		    "Error",
+            		    JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
