@@ -88,6 +88,14 @@ public class PurchaseTab {
 
     return panel;
   }
+  
+  private double getTotalCost(){
+	  double total=0;
+	  for(int i=0;i<model.getCurrentPurchaseTableModel().getRowCount();i++){
+		  total+=(double)model.getCurrentPurchaseTableModel().getValueAt(i, 4);
+	  }
+	  return total;
+  }
 
 
   // Creates the button "New purchase"
@@ -108,6 +116,7 @@ public class PurchaseTab {
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         submitPurchaseButtonClicked();
+        ConformationTab.popUpWindow(getTotalCost()).setVisible(true);
       }
     });
     b.setEnabled(false);
