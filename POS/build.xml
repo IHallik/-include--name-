@@ -89,6 +89,7 @@
 		<java jar="${build.jar.dir}/${jar.name}" fork="true"/>
 	</target>
 
+	<!-- How to set up automatic authentication: https://www.kernel.org/pub/software/scm/git/docs/git-credential-store.html -->
 	<target name="git_commit" description="Commit changes to Git">
 		<input message="Commit message" addproperty="commit.message" />
 		<echo message="Commiting all changes with message ${commit.message}" />

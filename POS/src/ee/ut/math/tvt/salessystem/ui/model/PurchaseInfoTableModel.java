@@ -3,7 +3,6 @@ package ee.ut.math.tvt.salessystem.ui.model;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
-import ee.ut.math.tvt.salessystem.ui.SalesSystemUI;
 
 /**
  * Purchase history details model.
@@ -14,7 +13,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 	private static final Logger log = Logger.getLogger(PurchaseInfoTableModel.class);
 	
 	public PurchaseInfoTableModel() {
-		super(new String[] { "Id", "Name", "Price", "Quantity"});
+		super(new String[] { "Id", "Name", "Price", "Quantity", "Sum"});
 	}
 
 	@Override
@@ -28,6 +27,8 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 			return item.getPrice();
 		case 3:
 			return item.getQuantity();
+		case 4:
+			return item.getSum();
 		}
 		throw new IllegalArgumentException("Column index out of range");
 	}
@@ -54,15 +55,28 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 	
     /**
      * Add new StockItem to table.
+     * @throws IllegalArgumentException 
      */
-    public void addItem(final SoldItem item) {
+    public void addItem(final SoldItem item) throws IllegalArgumentException {
         /**
          * XXX In case such stockItem already exists increase the quantity of the
          * existing stock.
          */
-        
-        rows.add(item);
-        log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
-        fireTableDataChanged();
+    	
+    	// Count how many of the items are already in order
+    	int qtyInUse = 0;
+        for(int i=0;i<rows.size();i++) {
+        	if(rows.get(i).getId() == item.getId()) {
+        		qtyInUse += rows.get(i).getQuantity();
+        	}
+        }
+
+        if(qtyInUse + item.getQuantity() <= item.getStockItem().getQuantity()) {
+        	rows.add(item);
+            log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
+            fireTableDataChanged();
+        } else {
+        	throw new IllegalArgumentException("Stock has less items than requested.");
+        }
     }
 }
