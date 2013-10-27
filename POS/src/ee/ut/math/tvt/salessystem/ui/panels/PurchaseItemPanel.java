@@ -100,8 +100,6 @@ public class PurchaseItemPanel extends JPanel {
 		quantityField = new JTextField("1");
 		nameField = new JTextField();
 		priceField = new JTextField();
-		
-		productSelectionField.setSelectedItem(null);
 
 		// Fill the dialog fields if the bar code text field loses focus
 		productSelectionField.addItemListener(new ItemListener() {
@@ -161,9 +159,10 @@ public class PurchaseItemPanel extends JPanel {
 			reset();
 		}
 	}
-/*
+
 	// Search the warehouse for a StockItem with the bar code entered
 	// to the barCode textfield.
+	// Unused functionality
 	private StockItem getStockItemByBarcode() {
 		try {
 			int code = Integer.parseInt(barCodeField.getText());
@@ -174,7 +173,7 @@ public class PurchaseItemPanel extends JPanel {
 			return null;
 		}
 	}
-*/
+
 	/**
 	 * Add new item to the cart.
 	 */
@@ -198,6 +197,9 @@ public class PurchaseItemPanel extends JPanel {
 	 */
 	@Override
 	public void setEnabled(boolean enabled) {
+		if(!enabled) {
+			productSelectionField.setSelectedItem(null);
+		}
 		this.addItemButton.setEnabled(enabled);
 		this.barCodeField.setEnabled(enabled);
 		this.quantityField.setEnabled(enabled);
