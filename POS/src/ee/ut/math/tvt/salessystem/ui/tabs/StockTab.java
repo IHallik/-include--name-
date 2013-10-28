@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,11 +20,31 @@ import javax.swing.table.JTableHeader;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.controller.ConfirmationStatusEvent;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 
 public class StockTab {
+	
+	protected Vector<ConfirmationStatusEvent> _listeners;
+	
+	public void addConfirmationStatusListener(ConfirmationStatusEvent listener) {
+		if (_listeners == null) {
+			_listeners = new Vector<ConfirmationStatusEvent>();
+		}
+			
+		_listeners.addElement(listener);
+	}
+	
+	
+	protected void confirmTransaction(boolean success) {
+		if (_listeners != null) {
+			for(ConfirmationStatusEvent e : _listeners) {
+				e.SaleConfirmed(success);
+			}
+		}
+	}
 
 	private static final Logger log = Logger.getLogger(PurchaseTab.class);
 
@@ -100,7 +121,7 @@ public class StockTab {
 	protected void AddButtonClicked() {
 		log.info("Adding new stock");
 
-		JFrame panel = new JFrame("Add new product");
+		final JFrame panel = new JFrame("Add new product");
 
 		GridBagLayout gb = new GridBagLayout();    
 		panel.setLayout(gb);    
@@ -112,17 +133,18 @@ public class StockTab {
 		gc.fill = GridBagConstraints.BOTH;    
 
 		JButton addNewProductButton = new JButton("Add new Product");
+		JButton cancelButton = new JButton("Cancel");
 		JLabel idLabel = new JLabel("Id:");
 		JLabel nameLabel = new JLabel("Name:");
-		JLabel descriptionLabel = new JLabel("Description:");
+		final JLabel descriptionLabel = new JLabel("Description:");
 		JLabel priceLabel = new JLabel("Price:");
 		JLabel quantityLabel = new JLabel("Quantity:");
 
-		JTextField idTextField = new IntegerField();
-		JTextField nameTextField = new JTextField();
+		final JTextField idTextField = new IntegerField();
+		final JTextField nameTextField = new JTextField();
 		JTextField descriptionTextField = new JTextField();
-		JTextField priceTextField = new DoubleField();
-		JTextField quantityTextField = new IntegerField();
+		final JTextField priceTextField = new DoubleField();
+		final JTextField quantityTextField = new IntegerField();
 
 		panel.add(idLabel,gc);
 		panel.add(idTextField,gc);
@@ -140,19 +162,51 @@ public class StockTab {
 		panel.add(quantityTextField,gc);
 
 		panel.add(addNewProductButton,gc);
+		panel.add(cancelButton, gc);
 
-		panel.setSize(160, 250);
+		panel.setSize(160, 270);
 		panel.setResizable(false);
 		panel.setVisible(true);
+		
+		
+//		//Install a listener and get this when the OK button is pressed
+//		final StockItem newProduct = new StockItem(Long.parseLong(idTextField.getText()),
+//				nameTextField.getText(), 
+//				descriptionLabel.getText(), 
+//				Double.parseDouble(priceTextField.getText()),
+//				Integer.parseInt(quantityTextField.getText())
+//				);
+		
+		
+		
+		addNewProductButton.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				final StockItem newProduct = new StockItem(Long.parseLong(idTextField.getText()),
+						nameTextField.getText(), 
+						descriptionLabel.getText(), 
+						Double.parseDouble(priceTextField.getText()),
+						Integer.parseInt(quantityTextField.getText())
+						);
+				model.getWarehouseTableModel().addItem(newProduct);
+				panel.dispose();
+				confirmTransaction(true);
+			}
+			
+		});
+		
+		
+		cancelButton.addActionListener(new ActionListener(){
 
-		//Install a listener and get this when the OK button is pressed
-		StockItem newProduct = new StockItem(Long.parseLong(idTextField.getText()),
-				nameTextField.getText(), 
-				descriptionLabel.getText(), 
-				Double.parseDouble(priceTextField.getText()),
-				Integer.parseInt(quantityTextField.getText())
-				);   
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				panel.dispose();
+				confirmTransaction(false);
+				
+			}
+			
+		});
 
 	}
 

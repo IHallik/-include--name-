@@ -55,12 +55,10 @@ public class ConfirmationTab {
 		popUp.setSize(200, 200);
 		GridBagConstraints c = new GridBagConstraints();
 		final DoubleField moneyBack = new DoubleField();
-		//MaskFormatter dateMask = new MaskFormatter("####.##");
-		//dateMask.install(moneyBack);
+
 		moneyBack.setEditable(false);
 		JLabel costDisplay = new JLabel("Your order cost is : " + totalCost);
 		final DoubleField payMoney = new DoubleField();
-		//dateMask.install(payMoney);
 		
 		item.add(popUp);
 		payMoney.getDocument().addDocumentListener(new DocumentListener() {
@@ -136,12 +134,6 @@ public class ConfirmationTab {
 		cancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				/*
-				PurchaseTab.purchasePane.setEnabled(true);
-				PurchaseTab.submitPurchase.setEnabled(true);
-				PurchaseTab.cancelPurchase.setEnabled(true);
-				PurchaseTab.newPurchase.setEnabled(false);
-				*/
 				item.dispose();
 				confirmTransaction(false);
 			}
