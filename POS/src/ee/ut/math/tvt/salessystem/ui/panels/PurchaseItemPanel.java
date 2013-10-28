@@ -170,6 +170,16 @@ public class PurchaseItemPanel extends JPanel {
 			return null;
 		}
 	}
+	
+	public void updateItems() {
+		StockItem[] items = new StockItem[model.getWarehouseTableModel().getRowCount()];
+		model.getWarehouseTableModel().getTableRows().toArray(items);
+		
+		productSelectionField.removeAllItems();
+		for(StockItem item : items) {
+			productSelectionField.addItem(item);
+		}
+	}
 
 	/**
 	 * Add new item to the cart.
@@ -229,6 +239,7 @@ public class PurchaseItemPanel extends JPanel {
 	 * Reset dialog fields.
 	 */
 	public void reset() {
+		updateItems();
 		productSelectionField.setSelectedItem(null);
 		barCodeField.setText("");
 		quantityField.setText("1");

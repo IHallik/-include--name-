@@ -139,13 +139,13 @@ public class PurchaseTab {
 					endSale();
 				} else {
 					setEnabled(true);
+					newPurchase.setEnabled(false);
 				}
 			}
 		});
 
 		return b;
 	}
-
 
 	// Creates the "Cancel" button
 	private JButton createCancelButton() {
