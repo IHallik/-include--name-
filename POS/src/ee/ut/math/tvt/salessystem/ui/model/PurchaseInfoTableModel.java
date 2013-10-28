@@ -11,7 +11,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger log = Logger.getLogger(PurchaseInfoTableModel.class);
-	
+
 	public PurchaseInfoTableModel() {
 		super(new String[] { "Id", "Name", "Price", "Quantity", "Sum"});
 	}
@@ -52,31 +52,31 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 
 		return buffer.toString();
 	}
-	
-    /**
-     * Add new StockItem to table.
-     * @throws IllegalArgumentException 
-     */
-    public void addItem(final SoldItem item) throws IllegalArgumentException {
-        /**
-         * XXX In case such stockItem already exists increase the quantity of the
-         * existing stock.
-         */
-    	
-    	// Count how many of the items are already in order
-    	int qtyInUse = 0;
-        for(int i=0;i<rows.size();i++) {
-        	if(rows.get(i).getId() == item.getId()) {
-        		qtyInUse += rows.get(i).getQuantity();
-        	}
-        }
 
-        if(qtyInUse + item.getQuantity() <= item.getStockItem().getQuantity()) {
-        	rows.add(item);
-            log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
-            fireTableDataChanged();
-        } else {
-        	throw new IllegalArgumentException("Stock has less items than requested.");
-        }
-    }
+	/**
+	 * Add new StockItem to table.
+	 * @throws IllegalArgumentException 
+	 */
+	public void addItem(final SoldItem item) throws IllegalArgumentException {
+		// Count how many of the items are already in order
+		int qtyInUse = 0;
+		int itemIndex = 0;
+		for(; itemIndex < rows.size(); itemIndex++) {
+			if(rows.get(itemIndex).getId() == item.getId()) {
+				qtyInUse += rows.get(itemIndex).getQuantity();
+				break;
+			}
+		}
+
+		if(qtyInUse == 0) {
+			rows.add(item);
+			fireTableDataChanged();
+		} else if(qtyInUse + item.getQuantity() <= item.getStockItem().getQuantity()) {
+			rows.get(itemIndex).setQuantity(qtyInUse + item.getQuantity());
+			log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
+			fireTableDataChanged();
+		} else {
+			throw new IllegalArgumentException("Stock has less items than requested.");
+		}
+	}
 }

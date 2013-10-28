@@ -125,6 +125,23 @@ public class PurchaseTab {
 			}
 		});
 		b.setEnabled(false);
+		
+		//Listener for the confirm popup box events
+		domainController.addConfirmationStatusListener(new ConfirmationStatusEvent() {
+			public void SaleConfirmed(boolean success) {
+				if(success) {
+					model.getPurchaseHistoryTableModel().addItem(
+							new HistoryItem(model.getCurrentPurchaseTableModel().getTableRows()));
+					
+					model.getWarehouseTableModel().removeItems(model.getCurrentPurchaseTableModel().getTableRows());
+					
+					getModel().getCurrentPurchaseTableModel().clear();
+					endSale();
+				} else {
+					setEnabled(true);
+				}
+			}
+		});
 
 		return b;
 	}
@@ -183,21 +200,6 @@ public class PurchaseTab {
 					getModel().getCurrentPurchaseTableModel().getTableRows());
 			
 			setEnabled(false);
-			
-			domainController.addConfirmationStatusListener(new ConfirmationStatusEvent() {
-				public void SaleConfirmed(boolean success) {
-					if(success) {
-						model.getPurchaseHistoryTableModel().addItem(
-								new HistoryItem(model.getCurrentPurchaseTableModel().getTableRows()));
-						
-						endSale();
-						
-						getModel().getCurrentPurchaseTableModel().clear();
-					} else {
-						setEnabled(true);
-					}
-				}
-			});
 		} catch (VerificationFailedException e) {
 			log.error(e.getLocalizedMessage());
 		}
@@ -225,7 +227,7 @@ public class PurchaseTab {
 		newPurchase.setEnabled(true);
 	}
 	
-	private void setEnabled(boolean e) {
+	public void setEnabled(boolean e) {
 		cancelPurchase.setEnabled(e);
 		submitPurchase.setEnabled(e);
 		newPurchase.setEnabled(e);

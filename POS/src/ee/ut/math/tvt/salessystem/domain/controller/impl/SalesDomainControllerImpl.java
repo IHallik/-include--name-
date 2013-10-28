@@ -40,14 +40,11 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		try {
 			confirmationPopup.draw().setVisible(true);
 		} catch (ParseException e) {}
-		
-		//Block the program flow somehow? Lock main display or the purchase tab only???
 	}
 
 	public void cancelCurrentPurchase() throws VerificationFailedException {				
 		// XXX - Cancel current purchase
 	}
-	
 
 	public void startNewPurchase() throws VerificationFailedException {
 		// XXX - Start new purchase

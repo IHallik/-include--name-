@@ -208,9 +208,6 @@ public class PurchaseItemPanel extends JPanel {
 	 */
 	@Override
 	public void setEnabled(boolean enabled) {
-		if(!enabled) {
-			productSelectionField.setSelectedItem(null);
-		}
 		this.addItemButton.setEnabled(enabled);
 		this.barCodeField.setEnabled(enabled);
 		this.quantityField.setEnabled(enabled);
@@ -221,6 +218,7 @@ public class PurchaseItemPanel extends JPanel {
 	 * Reset dialog fields.
 	 */
 	public void reset() {
+		productSelectionField.setSelectedItem(null);
 		barCodeField.setText("");
 		quantityField.setText("1");
 		nameField.setText("");

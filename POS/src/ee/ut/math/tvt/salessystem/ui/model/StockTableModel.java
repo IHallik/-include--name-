@@ -1,9 +1,11 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 /**
@@ -51,6 +53,40 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 					+ " quantity of " + stockItem.getQuantity());
 		}
 		fireTableDataChanged();
+	}
+	
+	/**
+	 *
+	 *
+	 * @param
+	 */
+	public void removeItems(List<SoldItem> soldItems) throws IllegalArgumentException  {
+		for(SoldItem item : soldItems) {
+			removeItem(item);
+		}
+	}
+	
+	/**
+	 *
+	 *
+	 * @param
+	 */
+	public void removeItem(final SoldItem soldItem) throws IllegalArgumentException  {
+		try {
+			StockItem stockItem = getItemById(soldItem.getId());
+			if(stockItem.getQuantity() < soldItem.getQuantity()) {
+				throw new IllegalArgumentException("invalid remove count: " + soldItem.getQuantity()
+						+ " | have: " + stockItem.getQuantity());
+			}
+			stockItem.setQuantity(stockItem.getQuantity() - soldItem.getQuantity());
+			log.debug("Found existing item " + stockItem.getName()
+					+ " | decreased quantity " + (stockItem.getQuantity()+soldItem.getQuantity()) + "->"
+					+ stockItem.getQuantity());
+			
+			fireTableDataChanged();
+		} catch(NoSuchElementException e) {
+			throw new IllegalArgumentException("soldItem index invalid");
+		}
 	}
 
 	@Override
