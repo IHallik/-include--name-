@@ -1,29 +1,49 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.MaskFormatter;
 
+import ee.ut.math.tvt.salessystem.domain.controller.ConfirmationStatusEvent;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 
 public class ConfirmationTab {
+	
+	protected Vector<ConfirmationStatusEvent> _listeners;
+	
+	double totalCost;
+	
+	public void addConfirmationStatusListener(ConfirmationStatusEvent listener) {
+		if (_listeners == null) {
+			_listeners = new Vector<ConfirmationStatusEvent>();
+		}
+			
+		_listeners.addElement(listener);
+	}
+	
+	protected void confirmTransaction(boolean success) {
+		if (_listeners != null) {
+			for(ConfirmationStatusEvent e : _listeners) {
+				e.SaleConfirmed(success);
+			}
+		}
+	}
 
-	public static JFrame popUpWindow(final double totalCost) throws ParseException, VerificationFailedException {
+	public Component draw() throws ParseException, VerificationFailedException {
 		final JFrame item = new JFrame();
 		item.setAlwaysOnTop(true);
 		item.setSize(new Dimension(200, 200));
@@ -44,23 +64,16 @@ public class ConfirmationTab {
 		
 		item.add(popUp);
 		payMoney.getDocument().addDocumentListener(new DocumentListener() {
-
-			@Override
 			public void changedUpdate(DocumentEvent arg0) {
 				data();
-
 			}
 
-			@Override
 			public void insertUpdate(DocumentEvent arg0) {
 				data();
-
 			}
 
-			@Override
 			public void removeUpdate(DocumentEvent arg0) {
 				data();
-
 			}
 
 			private void data() {
@@ -106,8 +119,8 @@ public class ConfirmationTab {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					if (Double.parseDouble(moneyBack.getText()) >= 0.0) {
-						//This is where it should fire fireConfirmationStatus(boolean)
 						item.dispose();
+						confirmTransaction(true);
 					}
 				} catch (NumberFormatException e) {
 
@@ -121,15 +134,16 @@ public class ConfirmationTab {
 		c.gridy = 3;
 		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				/*
 				PurchaseTab.purchasePane.setEnabled(true);
 				PurchaseTab.submitPurchase.setEnabled(true);
 				PurchaseTab.cancelPurchase.setEnabled(true);
 				PurchaseTab.newPurchase.setEnabled(false);
+				*/
 				item.dispose();
-
+				confirmTransaction(false);
 			}
 
 		});
@@ -137,5 +151,8 @@ public class ConfirmationTab {
 
 		return item;
 	}
-
+	
+	public void setCost(double totalCost) {
+		this.totalCost = totalCost;
+	}
 }

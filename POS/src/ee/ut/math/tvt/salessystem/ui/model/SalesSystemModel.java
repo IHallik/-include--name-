@@ -34,7 +34,6 @@ public class SalesSystemModel {
 
         // populate stock model with data from the warehouse
         warehouseTableModel.populateWithData(domainController.loadWarehouseState());
-
     }
 
     public StockTableModel getWarehouseTableModel() {
@@ -47,5 +46,9 @@ public class SalesSystemModel {
 
     public PurchaseHistoryTableModel getPurchaseHistoryTableModel() {
     	return historyTableModel;
+    }
+    
+    public SalesDomainController getDomainController() {
+    	return domainController;
     }
 }

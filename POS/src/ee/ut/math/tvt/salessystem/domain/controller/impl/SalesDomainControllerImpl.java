@@ -8,10 +8,8 @@ import java.util.Vector;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.ConfirmationStatusEvent;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
-import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.ConfirmationTab;
 
 /**
@@ -20,33 +18,27 @@ import ee.ut.math.tvt.salessystem.ui.tabs.ConfirmationTab;
 public class SalesDomainControllerImpl implements SalesDomainController {
 	
     protected Vector<ConfirmationStatusEvent> _listeners;
+    
+    ConfirmationTab confirmationPopup;
+    
+    public SalesDomainControllerImpl() {
+    	confirmationPopup = new ConfirmationTab();
+    }
 	
 	public void addConfirmationStatusListener(ConfirmationStatusEvent listener) {
-		if (_listeners == null) {
-			_listeners = new Vector<ConfirmationStatusEvent>();
-		}
-			
-		_listeners.addElement(listener);
-	}
-	
-	//The popup confirmation box should fire this event
-	protected void fireConfirmationStatus(boolean success) {
-		if (_listeners != null) {
-			for(ConfirmationStatusEvent e : _listeners) {
-				e.SaleConfirmed(success);
-			}
-		}
+		confirmationPopup.addConfirmationStatusListener(listener);
 	}
 	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
-		
 		double sum = 0;
 		for(SoldItem item : goods) {
 			sum += item.getSum();
 		}
 		
+		confirmationPopup.setCost(sum);
+		
 		try {
-			ConfirmationTab.popUpWindow(sum).setVisible(true);
+			confirmationPopup.draw().setVisible(true);
 		} catch (ParseException e) {}
 		
 		//Block the program flow somehow? Lock main display or the purchase tab only???

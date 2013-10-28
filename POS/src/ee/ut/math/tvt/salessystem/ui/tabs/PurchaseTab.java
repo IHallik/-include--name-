@@ -182,6 +182,8 @@ public class PurchaseTab {
 			domainController.submitCurrentPurchase(
 					getModel().getCurrentPurchaseTableModel().getTableRows());
 			
+			setEnabled(false);
+			
 			domainController.addConfirmationStatusListener(new ConfirmationStatusEvent() {
 				public void SaleConfirmed(boolean success) {
 					if(success) {
@@ -191,6 +193,8 @@ public class PurchaseTab {
 						endSale();
 						
 						getModel().getCurrentPurchaseTableModel().clear();
+					} else {
+						setEnabled(true);
 					}
 				}
 			});
@@ -209,20 +213,23 @@ public class PurchaseTab {
 	private void startNewSale() {
 		purchasePane.reset();
 
-		purchasePane.setEnabled(true);
-		submitPurchase.setEnabled(true);
-		cancelPurchase.setEnabled(true);
+		setEnabled(true);
 		newPurchase.setEnabled(false);
 	}
 
 	// switch UI to the state that allows to initiate new purchase
 	private void endSale() {
 		purchasePane.reset();
-
-		cancelPurchase.setEnabled(false);
-		submitPurchase.setEnabled(false);
+		
+		setEnabled(false);
 		newPurchase.setEnabled(true);
-		purchasePane.setEnabled(false);
+	}
+	
+	private void setEnabled(boolean e) {
+		cancelPurchase.setEnabled(e);
+		submitPurchase.setEnabled(e);
+		newPurchase.setEnabled(e);
+		purchasePane.setEnabled(e);
 	}
 
 

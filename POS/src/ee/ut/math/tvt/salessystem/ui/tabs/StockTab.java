@@ -24,159 +24,159 @@ import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 
 public class StockTab {
-	
-  private static final Logger log = Logger.getLogger(PurchaseTab.class);
 
-  private JButton addItem;
+	private static final Logger log = Logger.getLogger(PurchaseTab.class);
 
-  private SalesSystemModel model;
+	private JButton addItem;
 
-  public StockTab(SalesSystemModel model) {
-    this.model = model;
-  }
+	private SalesSystemModel model;
 
-  // warehouse stock tab - consists of a menu and a table
-  public Component draw() {
-    JPanel panel = new JPanel();
-    panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+	public StockTab(SalesSystemModel model) {
+		this.model = model;
+	}
 
-    GridBagLayout gb = new GridBagLayout();
-    GridBagConstraints gc = new GridBagConstraints();
-    panel.setLayout(gb);
+	// warehouse stock tab - consists of a menu and a table
+	public Component draw() {
+		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-    gc.fill = GridBagConstraints.HORIZONTAL;
-    gc.anchor = GridBagConstraints.NORTH;
-    gc.gridwidth = GridBagConstraints.REMAINDER;
-    gc.weightx = 1.0d;
-    gc.weighty = 0d;
+		GridBagLayout gb = new GridBagLayout();
+		GridBagConstraints gc = new GridBagConstraints();
+		panel.setLayout(gb);
 
-    panel.add(drawStockMenuPane(), gc);
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		gc.anchor = GridBagConstraints.NORTH;
+		gc.gridwidth = GridBagConstraints.REMAINDER;
+		gc.weightx = 1.0d;
+		gc.weighty = 0d;
 
-    gc.weighty = 1.0;
-    gc.fill = GridBagConstraints.BOTH;
-    panel.add(drawStockMainPane(), gc);
-    return panel;
-  }
+		panel.add(drawStockMenuPane(), gc);
 
-  // warehouse menu
-  private Component drawStockMenuPane() {
-    JPanel panel = new JPanel();
+		gc.weighty = 1.0;
+		gc.fill = GridBagConstraints.BOTH;
+		panel.add(drawStockMainPane(), gc);
+		return panel;
+	}
 
-    GridBagConstraints gc = new GridBagConstraints();
-    GridBagLayout gb = new GridBagLayout();
+	// warehouse menu
+	private Component drawStockMenuPane() {
+		JPanel panel = new JPanel();
 
-    panel.setLayout(gb);
+		GridBagConstraints gc = new GridBagConstraints();
+		GridBagLayout gb = new GridBagLayout();
 
-    gc.anchor = GridBagConstraints.NORTHWEST;
-    gc.weightx = 0;
+		panel.setLayout(gb);
 
-    addItem = createAddButton();
-    gc.gridwidth = GridBagConstraints.RELATIVE;
-    gc.weightx = 1.0;
-    panel.add(addItem, gc);
+		gc.anchor = GridBagConstraints.NORTHWEST;
+		gc.weightx = 0;
 
-    panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    return panel;
-  }
+		addItem = createAddButton();
+		gc.gridwidth = GridBagConstraints.RELATIVE;
+		gc.weightx = 1.0;
+		panel.add(addItem, gc);
 
-  // Creates the button "Add"
-  private JButton createAddButton() {
-    JButton b = new JButton("Add");
-    b.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-    	  AddButtonClicked();
-      }
-    });
+		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		return panel;
+	}
 
-    return b;
-  }
+	// Creates the button "Add"
+	private JButton createAddButton() {
+		JButton b = new JButton("Add");
+		b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddButtonClicked();
+			}
+		});
 
-  /* === Event handlers for the menu buttons
-   *     (get executed when the buttons are clicked)
-   */
+		return b;
+	}
+
+	/* === Event handlers for the menu buttons
+	 *     (get executed when the buttons are clicked)
+	 */
 
 
-  /** Event handler for the <code>Add</code> event. */
-  protected void AddButtonClicked() {
-    log.info("New sale process started");
-        
-    JFrame panel = new JFrame("Add new product");
-    
-    GridBagLayout gb = new GridBagLayout();    
-    panel.setLayout(gb);    
-    
-    GridBagConstraints gc = new GridBagConstraints();
-    gc.fill = GridBagConstraints.HORIZONTAL;
-    gc.anchor = GridBagConstraints.NORTH;
-    gc.gridwidth = GridBagConstraints.REMAINDER;
-    gc.fill = GridBagConstraints.BOTH;    
-    
-    JButton addNewProductButton = new JButton("Add new Product");
-    JLabel idLabel = new JLabel("Id:");
-    JLabel nameLabel = new JLabel("Name:");
-    JLabel descriptionLabel = new JLabel("Description:");
-    JLabel priceLabel = new JLabel("Price:");
-    JLabel quantityLabel = new JLabel("Quantity:");
-    
-    JTextField idTextField = new IntegerField();
-    JTextField nameTextField = new JTextField();
-    JTextField descriptionTextField = new JTextField();
-    JTextField priceTextField = new DoubleField();
-    JTextField quantityTextField = new IntegerField();
-    
-    panel.add(idLabel,gc);
-    panel.add(idTextField,gc);
-    
-    panel.add(nameLabel,gc);
-    panel.add(nameTextField,gc);
-    
-    panel.add(descriptionLabel,gc);
-    panel.add(descriptionTextField,gc);
-    
-    panel.add(priceLabel,gc);
-    panel.add(priceTextField,gc);
-    
-    panel.add(quantityLabel,gc); 
-    panel.add(quantityTextField,gc);
-    
-    panel.add(addNewProductButton,gc);
-    
-    panel.setSize(160, 250);
-    panel.setResizable(false);
-    panel.setVisible(true);
-    
-    
-    
-    StockItem newProduct = new StockItem(Long.parseLong(idTextField.getText()),
-    									nameTextField.getText(), 
-    									descriptionLabel.getText(), 
-    									Double.parseDouble(priceTextField.getText()),
-    									Integer.parseInt(quantityTextField.getText())
-    									);   
-    
-  }
-  
-  // table of the wareshouse stock
-  private Component drawStockMainPane() {
-    JPanel panel = new JPanel();
+	/** Event handler for the <code>Add</code> event. */
+	protected void AddButtonClicked() {
+		log.info("Adding new stock");
 
-    JTable table = new JTable(model.getWarehouseTableModel());
-    JTableHeader header = table.getTableHeader();
-    header.setReorderingAllowed(false);
+		JFrame panel = new JFrame("Add new product");
 
-    JScrollPane scrollPane = new JScrollPane(table);
+		GridBagLayout gb = new GridBagLayout();    
+		panel.setLayout(gb);    
 
-    GridBagConstraints gc = new GridBagConstraints();
-    GridBagLayout gb = new GridBagLayout();
-    gc.fill = GridBagConstraints.BOTH;
-    gc.weightx = 1.0;
-    gc.weighty = 1.0;
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		gc.anchor = GridBagConstraints.NORTH;
+		gc.gridwidth = GridBagConstraints.REMAINDER;
+		gc.fill = GridBagConstraints.BOTH;    
 
-    panel.setLayout(gb);
-    panel.add(scrollPane, gc);
+		JButton addNewProductButton = new JButton("Add new Product");
+		JLabel idLabel = new JLabel("Id:");
+		JLabel nameLabel = new JLabel("Name:");
+		JLabel descriptionLabel = new JLabel("Description:");
+		JLabel priceLabel = new JLabel("Price:");
+		JLabel quantityLabel = new JLabel("Quantity:");
 
-    panel.setBorder(BorderFactory.createTitledBorder("Warehouse status"));
-    return panel;
-  }
+		JTextField idTextField = new IntegerField();
+		JTextField nameTextField = new JTextField();
+		JTextField descriptionTextField = new JTextField();
+		JTextField priceTextField = new DoubleField();
+		JTextField quantityTextField = new IntegerField();
+
+		panel.add(idLabel,gc);
+		panel.add(idTextField,gc);
+
+		panel.add(nameLabel,gc);
+		panel.add(nameTextField,gc);
+
+		panel.add(descriptionLabel,gc);
+		panel.add(descriptionTextField,gc);
+
+		panel.add(priceLabel,gc);
+		panel.add(priceTextField,gc);
+
+		panel.add(quantityLabel,gc); 
+		panel.add(quantityTextField,gc);
+
+		panel.add(addNewProductButton,gc);
+
+		panel.setSize(160, 250);
+		panel.setResizable(false);
+		panel.setVisible(true);
+
+
+		//Install a listener and get this when the OK button is pressed
+		StockItem newProduct = new StockItem(Long.parseLong(idTextField.getText()),
+				nameTextField.getText(), 
+				descriptionLabel.getText(), 
+				Double.parseDouble(priceTextField.getText()),
+				Integer.parseInt(quantityTextField.getText())
+				);   
+
+	}
+
+	// table of the wareshouse stock
+	private Component drawStockMainPane() {
+		JPanel panel = new JPanel();
+
+		JTable table = new JTable(model.getWarehouseTableModel());
+		JTableHeader header = table.getTableHeader();
+		header.setReorderingAllowed(false);
+
+		JScrollPane scrollPane = new JScrollPane(table);
+
+		GridBagConstraints gc = new GridBagConstraints();
+		GridBagLayout gb = new GridBagLayout();
+		gc.fill = GridBagConstraints.BOTH;
+		gc.weightx = 1.0;
+		gc.weighty = 1.0;
+
+		panel.setLayout(gb);
+		panel.add(scrollPane, gc);
+
+		panel.setBorder(BorderFactory.createTitledBorder("Warehouse status"));
+		return panel;
+	}
 
 }
