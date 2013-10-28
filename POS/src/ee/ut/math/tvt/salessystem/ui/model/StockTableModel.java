@@ -1,6 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
@@ -28,7 +29,7 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		case 1:
 			return item.getName();
 		case 2:
-			return item.getPrice();
+			return String.format(Locale.ENGLISH, "%.2f", item.getPrice());
 		case 3:
 			return item.getQuantity();
 		}
