@@ -106,7 +106,7 @@ public class ConfirmationTab {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					if (Double.parseDouble(moneyBack.getText()) >= 0.0) {
-						PurchaseTab.getModel().getCurrentPurchaseTableModel().clear();
+						//This is where it should fire fireConfirmationStatus(boolean)
 						item.dispose();
 					}
 				} catch (NumberFormatException e) {

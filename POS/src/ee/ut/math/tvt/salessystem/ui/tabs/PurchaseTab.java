@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
+import ee.ut.math.tvt.salessystem.domain.controller.ConfirmationStatusEvent;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
@@ -181,13 +182,18 @@ public class PurchaseTab {
 			domainController.submitCurrentPurchase(
 					getModel().getCurrentPurchaseTableModel().getTableRows());
 			
-			model.getPurchaseHistoryTableModel().addItem(
-					new HistoryItem(model.getCurrentPurchaseTableModel().getTableRows()));
-			
-			//These should trigger from the confirmation box somehow
-			endSale();
-			
-			getModel().getCurrentPurchaseTableModel().clear();
+			domainController.addConfirmationStatusListener(new ConfirmationStatusEvent() {
+				public void SaleConfirmed(boolean success) {
+					if(success) {
+						model.getPurchaseHistoryTableModel().addItem(
+								new HistoryItem(model.getCurrentPurchaseTableModel().getTableRows()));
+						
+						endSale();
+						
+						getModel().getCurrentPurchaseTableModel().clear();
+					}
+				}
+			});
 		} catch (VerificationFailedException e) {
 			log.error(e.getLocalizedMessage());
 		}

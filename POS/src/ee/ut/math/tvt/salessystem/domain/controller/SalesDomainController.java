@@ -5,13 +5,17 @@ import java.util.List;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
-import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 /**
  * Sales domain controller is responsible for the domain specific business
  * processes.
  */
 public interface SalesDomainController {
+	
+	/**
+     * Add a confirmation status listener to the SalesComainController
+     */
+	public void addConfirmationStatusListener(ConfirmationStatusEvent listener);
 
     /**
      * Load the current state of the warehouse.

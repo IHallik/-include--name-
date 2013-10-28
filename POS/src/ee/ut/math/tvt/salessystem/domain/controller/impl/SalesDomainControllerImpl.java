@@ -3,8 +3,10 @@ package ee.ut.math.tvt.salessystem.domain.controller.impl;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
+import ee.ut.math.tvt.salessystem.domain.controller.ConfirmationStatusEvent;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
@@ -16,6 +18,25 @@ import ee.ut.math.tvt.salessystem.ui.tabs.ConfirmationTab;
  * Implementation of the sales domain controller.
  */
 public class SalesDomainControllerImpl implements SalesDomainController {
+	
+    protected Vector<ConfirmationStatusEvent> _listeners;
+	
+	public void addConfirmationStatusListener(ConfirmationStatusEvent listener) {
+		if (_listeners == null) {
+			_listeners = new Vector<ConfirmationStatusEvent>();
+		}
+			
+		_listeners.addElement(listener);
+	}
+	
+	//The popup confirmation box should fire this event
+	protected void fireConfirmationStatus(boolean success) {
+		if (_listeners != null) {
+			for(ConfirmationStatusEvent e : _listeners) {
+				e.SaleConfirmed(success);
+			}
+		}
+	}
 	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		
