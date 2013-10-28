@@ -1,5 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.util.Locale;
+
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
@@ -28,7 +30,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 		case 3:
 			return item.getQuantity();
 		case 4:
-			return item.getSum();
+			return String.format(Locale.ENGLISH, "%.2f", item.getSum());
 		}
 		throw new IllegalArgumentException("Column index out of range");
 	}
@@ -46,7 +48,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 			buffer.append(item.getName() + "\t");
 			buffer.append(item.getPrice() + "\t");
 			buffer.append(item.getQuantity() + "\t");
-			buffer.append(item.getSum() + "\t");
+			buffer.append(String.format(Locale.ENGLISH, "%.2f", item.getSum()) + "\t");
 			buffer.append("\n");
 		}
 
