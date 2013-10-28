@@ -177,22 +177,19 @@ public class PurchaseTab {
 		log.info("Sale complete");
 		try {
 			log.debug("Contents of the current basket:\n" + getModel().getCurrentPurchaseTableModel());
-			//Currently doesn't alter program flow so commenting it out
-			/*
-			try {
-				ConformationTab.popUpWindow(getTotalCost()).setVisible(true);
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-			*/
+
 			domainController.submitCurrentPurchase(
-					getModel().getCurrentPurchaseTableModel().getTableRows()
-					);
+					getModel().getCurrentPurchaseTableModel().getTableRows());
+			
+			model.getPurchaseHistoryTableModel().addItem(
+					new HistoryItem(model.getCurrentPurchaseTableModel().getTableRows()));
+			
+			//These should trigger from the confirmation box somehow
 			endSale();
-			model.getPurchaseHistoryTableModel().addItem(new HistoryItem(getModel().getCurrentPurchaseTableModel().getTableRows()));
+			
 			getModel().getCurrentPurchaseTableModel().clear();
-		} catch (VerificationFailedException e1) {
-			log.error(e1.getMessage());
+		} catch (VerificationFailedException e) {
+			log.error(e.getLocalizedMessage());
 		}
 	}
 

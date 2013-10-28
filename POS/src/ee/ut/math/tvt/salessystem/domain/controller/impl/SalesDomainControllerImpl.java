@@ -1,12 +1,16 @@
 package ee.ut.math.tvt.salessystem.domain.controller.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.tabs.ConfirmationTab;
 
 /**
  * Implementation of the sales domain controller.
@@ -14,7 +18,17 @@ import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
-		// XXX - Save purchase
+		
+		double sum = 0;
+		for(SoldItem item : goods) {
+			sum += item.getSum();
+		}
+		
+		try {
+			ConfirmationTab.popUpWindow(sum).setVisible(true);
+		} catch (ParseException e) {}
+		
+		//Block the program flow somehow? Lock main display or the purchase tab only???
 	}
 
 	public void cancelCurrentPurchase() throws VerificationFailedException {				

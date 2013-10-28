@@ -19,9 +19,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.MaskFormatter;
 
-public class ConformationTab {
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 
-	public static JFrame popUpWindow(final double totalCost) throws ParseException {
+public class ConfirmationTab {
+
+	public static JFrame popUpWindow(final double totalCost) throws ParseException, VerificationFailedException {
 		final JFrame item = new JFrame();
 		item.setAlwaysOnTop(true);
 		item.setSize(new Dimension(200, 200));
