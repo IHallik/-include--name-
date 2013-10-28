@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Container of SoldItems. Holds price total, datetime of sale and item list
@@ -64,7 +65,7 @@ public class HistoryItem implements DisplayableItem {
             case 0: return id;
             case 1: return getOrderDateString();
             case 2: return getOrderTimeString();
-            case 3: return new Double(priceTotal);
+            case 3: return String.format(Locale.ENGLISH, "%.2f", new Double(priceTotal));
             default: throw new RuntimeException("invalid column!");
         }
     }

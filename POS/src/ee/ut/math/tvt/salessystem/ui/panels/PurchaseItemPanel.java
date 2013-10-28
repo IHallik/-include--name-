@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 
 import javax.swing.BorderFactory;
@@ -151,7 +152,7 @@ public class PurchaseItemPanel extends JPanel {
 			barCodeField.setText(stockItem.getId() + "");
 			nameField.setText(stockItem.getName());
 			String priceString = String.valueOf(stockItem.getPrice());
-			priceField.setText(priceString);
+			priceField.setText(String.format(Locale.ENGLISH, "%.2f", new Double(priceString)));
 		} else {
 			reset();
 		}

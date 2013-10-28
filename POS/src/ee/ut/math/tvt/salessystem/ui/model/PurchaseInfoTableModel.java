@@ -26,7 +26,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 		case 1:
 			return item.getName();
 		case 2:
-			return item.getPrice();
+			return String.format(Locale.ENGLISH, "%.2f", item.getPrice());
 		case 3:
 			return item.getQuantity();
 		case 4:
@@ -46,7 +46,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 		for (final SoldItem item : rows) {
 			buffer.append(item.getId() + "\t");
 			buffer.append(item.getName() + "\t");
-			buffer.append(item.getPrice() + "\t");
+			buffer.append(String.format(Locale.ENGLISH, "%.2f", item.getPrice()) + "\t");
 			buffer.append(item.getQuantity() + "\t");
 			buffer.append(String.format(Locale.ENGLISH, "%.2f", item.getSum()) + "\t");
 			buffer.append("\n");

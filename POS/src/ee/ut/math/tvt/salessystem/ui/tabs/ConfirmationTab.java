@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -61,7 +62,7 @@ public class ConfirmationTab {
 		final DoubleField moneyBack = new DoubleField();
 
 		moneyBack.setEditable(false);
-		JLabel costDisplay = new JLabel("Your order cost is : " + totalCost);
+		JLabel costDisplay = new JLabel("Your order cost is : " + String.format(Locale.ENGLISH, "%.2f", totalCost));
 		final DoubleField payMoney = new DoubleField();
 		
 		item.add(popUp);
@@ -84,7 +85,7 @@ public class ConfirmationTab {
 						double changeBack = Double.parseDouble(payMoney
 								.getText()) - totalCost;
 						changeBack = Math.round(changeBack * 100.0) / 100.0;
-						moneyBack.setText(changeBack + "");
+						moneyBack.setText(String.format(Locale.ENGLISH, "%.2f", changeBack));
 					}
 				} catch (NumberFormatException e) {
 
