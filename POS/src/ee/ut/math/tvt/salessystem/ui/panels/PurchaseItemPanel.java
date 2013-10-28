@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.swing.BorderFactory;
@@ -176,6 +177,7 @@ public class PurchaseItemPanel extends JPanel {
 	public void addItemEventHandler() {
 		// add chosen item to the shopping cart.
 		StockItem stockItem = (StockItem)productSelectionField.getSelectedItem();
+		
 		if (stockItem != null) {
 			int quantity;
 			try {
@@ -185,15 +187,24 @@ public class PurchaseItemPanel extends JPanel {
 			}
 
 			if(quantity > 0) {
-				try {
-	            	model.getCurrentPurchaseTableModel()
-	            		.addItem(new SoldItem(stockItem, quantity));
-	            } catch (IllegalArgumentException iae) {
-	            	JOptionPane.showMessageDialog(null,
-	            		    "Warehouse has less than the requested quantity of that item.",
-	            		    "Warning",
-	            		    JOptionPane.WARNING_MESSAGE);
-	            }	
+				int qtyInUse = 0;
+				int itemIndex = 0;
+				List<SoldItem> rows = model.getCurrentPurchaseTableModel().getTableRows();
+				for(; itemIndex < rows.size(); itemIndex++) {
+					if(rows.get(itemIndex).getId() == stockItem.getId()) {
+						qtyInUse += rows.get(itemIndex).getQuantity();
+						break;
+					}
+				}
+				
+				if(quantity + qtyInUse <= stockItem.getQuantity()) {
+					model.getCurrentPurchaseTableModel().addItem(new SoldItem(stockItem, quantity));
+				} else {
+					JOptionPane.showMessageDialog(null,
+            		    "Warehouse has less than the requested quantity of that item.",
+            		    "Error",
+            		    JOptionPane.ERROR_MESSAGE);
+				}
 			} else {
 				JOptionPane.showMessageDialog(null,
             		    "Quantity must be 1 or greater.",

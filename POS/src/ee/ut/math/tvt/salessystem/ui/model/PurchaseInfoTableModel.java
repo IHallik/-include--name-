@@ -71,12 +71,10 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 		if(qtyInUse == 0) {
 			rows.add(item);
 			fireTableDataChanged();
-		} else if(qtyInUse + item.getQuantity() <= item.getStockItem().getQuantity()) {
+		} else {
 			rows.get(itemIndex).setQuantity(qtyInUse + item.getQuantity());
 			log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
 			fireTableDataChanged();
-		} else {
-			throw new IllegalArgumentException("Stock has less items than requested.");
 		}
 	}
 }
