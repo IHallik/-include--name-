@@ -18,12 +18,16 @@ import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.apache.log4j.Logger;
+
 import ee.ut.math.tvt.salessystem.domain.controller.ConfirmationStatusEvent;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 
 public class ConfirmationTab {
 	
 	protected Vector<ConfirmationStatusEvent> _listeners;
+	
+	private static final Logger log = Logger.getLogger(PurchaseTab.class);
 	
 	double totalCost;
 	
@@ -118,6 +122,7 @@ public class ConfirmationTab {
 				try {
 					if (Double.parseDouble(moneyBack.getText()) >= 0.0) {
 						item.dispose();
+						log.info("Sale complete");
 						confirmTransaction(true);
 					}
 				} catch (NumberFormatException e) {
