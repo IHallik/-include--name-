@@ -50,5 +50,8 @@ public interface SalesDomainController {
     public void submitCurrentPurchase(List<SoldItem> goods)
             throws VerificationFailedException;
 
-    
+    /**
+     *  Closes the connection to the database
+     */
+    public void endSession();
 }
