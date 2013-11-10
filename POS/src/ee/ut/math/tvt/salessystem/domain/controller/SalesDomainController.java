@@ -71,4 +71,6 @@ public interface SalesDomainController {
      *         ee.ut.math.tvt.salessystem.domain.data.HistoryItem}s.
      */
 	public List<SoldItem> getSoldItems();
+
+	public void addStock(StockItem Product);
 }

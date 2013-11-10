@@ -124,5 +124,10 @@ public class StockItem implements Cloneable, DisplayableItem {
             new StockItem(getId(), getName(), getDescription(), getPrice(), getQuantity());
         return item;
     }
+
+	public void decreaseQuantity(Integer count) throws IllegalArgumentException {
+		if(count > quantity) throw new IllegalArgumentException("Not enough stockItems to remove");
+		setQuantity(quantity-count);
+	}
 		
 }

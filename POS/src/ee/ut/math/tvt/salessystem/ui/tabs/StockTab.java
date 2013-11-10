@@ -186,7 +186,8 @@ public class StockTab implements SelectableTab {
 						Double.parseDouble(priceTextField.getText()),
 						Integer.parseInt(quantityTextField.getText())
 						);
-				model.getWarehouseTableModel().addItem(newProduct);
+				model.getDomainController().addStock(newProduct);
+				//model.getWarehouseTableModel().addItem(newProduct);
 				panel.dispose();
 				confirmTransaction(true);
 			}
