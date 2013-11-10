@@ -25,8 +25,11 @@ import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 
-public class StockTab {
-	
+public class StockTab implements SelectableTab {
+	private static final Logger log = Logger.getLogger(PurchaseTab.class);
+	private JButton addItem;
+	private SalesSystemModel model;
+	private JTable warehouseTable;
 	protected Vector<ConfirmationStatusEvent> _listeners;
 	
 	public void addConfirmationStatusListener(ConfirmationStatusEvent listener) {
@@ -45,12 +48,6 @@ public class StockTab {
 			}
 		}
 	}
-
-	private static final Logger log = Logger.getLogger(PurchaseTab.class);
-
-	private JButton addItem;
-
-	private SalesSystemModel model;
 
 	public StockTab(SalesSystemModel model) {
 		this.model = model;
@@ -214,11 +211,11 @@ public class StockTab {
 	private Component drawStockMainPane() {
 		JPanel panel = new JPanel();
 
-		JTable table = new JTable(model.getWarehouseTableModel());
-		JTableHeader header = table.getTableHeader();
+		warehouseTable = new JTable(model.getWarehouseTableModel());
+		JTableHeader header = warehouseTable.getTableHeader();
 		header.setReorderingAllowed(false);
 
-		JScrollPane scrollPane = new JScrollPane(table);
+		JScrollPane scrollPane = new JScrollPane(warehouseTable);
 
 		GridBagConstraints gc = new GridBagConstraints();
 		GridBagLayout gb = new GridBagLayout();
@@ -233,4 +230,9 @@ public class StockTab {
 		return panel;
 	}
 
+
+	@Override
+	public void onSelected() {
+		warehouseTable.setModel(model.getWarehouseTableModel());
+	}
 }

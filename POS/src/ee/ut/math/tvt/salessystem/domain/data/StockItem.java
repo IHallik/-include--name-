@@ -36,7 +36,7 @@ public class StockItem implements Cloneable, DisplayableItem {
      * @param name name of the product
      * @param desc description of the product
      * @param price price of the product
-     */
+     */	
     public StockItem(Long id, String name, String desc, double price) {
         this.id = id;
         this.name = name;
@@ -118,7 +118,6 @@ public class StockItem implements Cloneable, DisplayableItem {
             default: throw new RuntimeException("invalid column!");
         }
     }
-    
     
     public Object clone() {
         StockItem item =

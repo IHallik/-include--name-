@@ -1,19 +1,26 @@
 package ee.ut.math.tvt.salessystem.ui;
 
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
+
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
 import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
+import ee.ut.math.tvt.salessystem.ui.tabs.SelectableTab;
 import ee.ut.math.tvt.salessystem.ui.tabs.StockTab;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -26,6 +33,9 @@ public class SalesSystemUI extends JFrame {
 	private static final Logger log = Logger.getLogger(SalesSystemUI.class);
 
 	private final SalesDomainController domainController;
+	
+	JTabbedPane tabbedPane;
+	SelectableTab[] tabs;
 
 	// Warehouse model
 	private SalesSystemModel model;
@@ -77,13 +87,28 @@ public class SalesSystemUI extends JFrame {
 	}
 
 	private void drawWidgets() {
-		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane = new JTabbedPane();
+		
+		tabs = new SelectableTab[3];
+		tabs[0] = purchaseTab;
+		tabs[1] = stockTab;
+		tabs[2] = historyTab;
 
 		tabbedPane.add("Point-of-sale", purchaseTab.draw());
 		tabbedPane.add("Warehouse", stockTab.draw());
 		tabbedPane.add("History", historyTab.draw());
+		
+		tabbedPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				sendSelected();
+			}
+		});
 
 		getContentPane().add(tabbedPane);
+	}
+	
+	private void sendSelected() {
+		tabs[tabbedPane.getSelectedIndex()].onSelected();
 	}
 	
 	private void closeApplication() {

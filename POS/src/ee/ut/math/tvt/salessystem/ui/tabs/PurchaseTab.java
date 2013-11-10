@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Encapsulates everything that has to do with the purchase tab (the tab
  * labeled "Point-of-sale" in the menu).
  */
-public class PurchaseTab {
+public class PurchaseTab implements SelectableTab {
 
 	private static final Logger log = Logger.getLogger(PurchaseTab.class);
 
@@ -130,10 +130,10 @@ public class PurchaseTab {
 		domainController.addConfirmationStatusListener(new ConfirmationStatusEvent() {
 			public void SaleConfirmed(boolean success) {
 				if(success) {
-					model.getPurchaseHistoryTableModel().addItem(
-							new HistoryItem(model.getCurrentPurchaseTableModel().getTableRows()));
+					//model.getPurchaseHistoryTableModel().addItem(
+					//		new HistoryItem(model.getCurrentPurchaseTableModel().getTableRows()));
 					
-					model.getWarehouseTableModel().removeItems(model.getCurrentPurchaseTableModel().getTableRows());
+					//model.getWarehouseTableModel().removeItems(model.getCurrentPurchaseTableModel().getTableRows());
 					
 					getModel().getCurrentPurchaseTableModel().clear();
 					endSale();
@@ -289,4 +289,8 @@ public class PurchaseTab {
 		this.model = model;
 	}
 
+
+	@Override
+	public void onSelected() {
+	}
 }

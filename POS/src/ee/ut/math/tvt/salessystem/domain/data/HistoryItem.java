@@ -4,8 +4,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,20 +27,26 @@ public class HistoryItem implements DisplayableItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "order_date")
+	@Column(name = "sale_date")
 	private Calendar orderDateTime;
 	
 	@Column(name = "price_total")
 	private double priceTotal;
 	
 	@OneToMany(mappedBy = "sale")
-	private List<SoldItem> cart;
+	private Set<SoldItem> cart;
 	
 	//XXX - Deprecated with db
 	static long counter = 0;
+	
+	public HistoryItem() {
+		cart = new HashSet<SoldItem>();
+		priceTotal = 0;
+	}
 
 	public HistoryItem(List<SoldItem> cart) {
-		this.cart = cart;
+		this.cart = new HashSet<SoldItem>();
+		this.cart.addAll(cart);
 		id = counter++;
 		orderDateTime = new GregorianCalendar();
 		priceTotal = 0;
@@ -74,7 +82,7 @@ public class HistoryItem implements DisplayableItem {
 		return cart.size();
 	}
 
-	public List<SoldItem> getStockItemList() {
+	public Set<SoldItem> getSoldItems() {
 		return cart;
 	}
 	

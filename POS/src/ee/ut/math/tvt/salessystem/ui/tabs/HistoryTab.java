@@ -3,6 +3,8 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -20,7 +22,7 @@ import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
  * Encapsulates everything that has to do with the purchase tab (the tab
  * labelled "History" in the menu).
  */
-public class HistoryTab {
+public class HistoryTab implements SelectableTab {
 
 	SalesSystemModel model;
 	
@@ -69,7 +71,7 @@ public class HistoryTab {
     	if(selected == -1) return;
     	
     	HistoryItem cur = model.getPurchaseHistoryTableModel().getTableRows().get(selected);
-    	for(SoldItem item : cur.getStockItemList()) {
+    	for(SoldItem item : cur.getSoldItems()) {
     		purchase.addItem(item);
     	}
     }
@@ -93,5 +95,10 @@ public class HistoryTab {
 		gc.weighty = 0.5;
 
 		return gc;
+	}
+
+	@Override
+	public void onSelected() {
+		purchasesTable.setModel(model.getPurchaseHistoryTableModel());
 	}
 }
