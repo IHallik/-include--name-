@@ -49,3 +49,27 @@ GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.CARDINAL_NUMBER TO PUBLIC
 GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.CHARACTER_DATA TO PUBLIC
 GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.SQL_IDENTIFIER TO PUBLIC
 GRANT DBA TO SA
+SET SCHEMA PUBLIC
+INSERT INTO STOCKITEM VALUES(,'Beer',2.00, 22, 'To get the party going')
+INSERT INTO STOCKITEM VALUES(,'Alexander beer',1.80, 202, 'Great, like the man 24 centuries ago, or our own discus thrower')
+INSERT INTO STOCKITEM VALUES(,'Bock beer',1.20, 782, 'A basketball club in Tartu, local brew')
+INSERT INTO STOCKITEM VALUES(,'2l Beer Bear',4.00, 456, 'Sometimes, you just can't make it to the shop on time')
+INSERT INTO STOCKITEM VALUES(,'4cl Jack Daniels whiskey',3.80, 12, 'A shot of JD to break the day')
+INSERT INTO STOCKITEM VALUES(,'4cl Captain Morgan rum',3.60, 12, 'At war with' a bottle, as Captain Morgan attacks my organs')
+INSERT INTO STOCKITEM VALUES(,'4cl Hennessy VSOP cognac ',5.20, 12, 'Mixin' Hennessey and Fanta with Pepto and Mylanta')
+INSERT INTO STOCKITEM VALUES(,'4cl Torni Viin vodka',1.60, 85, 'Budget buzzing')
+INSERT INTO STOCKITEM VALUES(,'Sipsik',2.50, 22, 'A mysterious shot')
+INSERT INTO STOCKITEM VALUES(,'Roundhouse Kick',3.00, 34, 'Survive five and if you walk, you are Walker')
+INSERT INTO STOCKITEM VALUES(,'Millimallikas',2.00, 90, 'Beating me down…Down…Into the ground ')
+INSERT INTO STOCKITEM VALUES(,'Tabasco shot',3.00, 73, 'Burn *********** burn.')
+INSERT INTO STOCKITEM VALUES(,'Sortiment of Strong Spirits',45.00, 14, 'The winner will become justice!... or Napoleon, or Stalin...')
+INSERT INTO STOCKITEM VALUES(,'Kalashnikov energy drink',2.00, 25, 'Expected effects guaranteed, with Russian reliability')
+INSERT INTO STOCKITEM VALUES(,'Cocaine energy drink',2.00, 42, 'You are in pain,Take your life, take your life with cocaine')
+INSERT INTO STOCKITEM VALUES(,'Burger',1.50, 23, 'Cheap, convenient and free fat')
+INSERT INTO STOCKITEM VALUES(,'Fries',1.20, 56, 'Not McDonalds')
+INSERT INTO STOCKITEM VALUES(,'Chicken Nuggets',2.10, 35, 'Usain Bolt likes them, and so do you')
+INSERT INTO STOCKITEM VALUES(,'Chicken Wrap',3.10, 56, 'Because we hate chickens')
+INSERT INTO STOCKITEM VALUES(,'Mashed Monkey Brains',28.00, 19, 'House special')
+INSERT INTO STOCKITEM VALUES(,'Sturgeon Caviar',34.00, 71, 'Just because')
+INSERT INTO STOCKITEM VALUES(,'Kangaroo's ankle',125.00, 5, 'When money just keeps flowing in')
+
