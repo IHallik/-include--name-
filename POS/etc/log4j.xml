@@ -3,16 +3,18 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
   <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender"> 
-    <param name="target" value="System.out"/> 
+    <param name="target" value="System.err"/> 
     <layout class="org.apache.log4j.PatternLayout"> 
       <param name="ConversionPattern" value="%d{ISO8601} %-5p %c{1} - %m%n"/> 
     </layout> 
-  </appender> 
+  </appender>
   <!-- Adding this, just in case we need debugging in a further release -->
+  <!--
   <logger name="ee.ut.math.tvt.includeName" additivity="false">
     <level value="debug" /> 
     <appender-ref ref="consoleAppender"/>
   </logger>
+  -->
   <root>
     <priority value="INFO"/>
     <appender-ref ref="consoleAppender"/>

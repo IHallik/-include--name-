@@ -7,16 +7,34 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 /**
  * Container of SoldItems. Holds price total, datetime of sale and item list
  */
+@Entity
+@Table(name = "SALE")
 public class HistoryItem implements DisplayableItem {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "order_date")
 	private Calendar orderDateTime;
+	
+	@Column(name = "price_total")
 	private double priceTotal;
+	
+	@OneToMany(mappedBy = "sale")
 	private List<SoldItem> cart;
 	
+	//XXX - Deprecated with db
 	static long counter = 0;
 
 	public HistoryItem(List<SoldItem> cart) {

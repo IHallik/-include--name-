@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import org.hibernate.Session;
+
 import ee.ut.math.tvt.salessystem.domain.controller.ConfirmationStatusEvent;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
@@ -18,9 +20,9 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
  */
 public class SalesDomainControllerImpl implements SalesDomainController {
 	
-    protected Vector<ConfirmationStatusEvent> _listeners;
-    
+    protected Vector<ConfirmationStatusEvent> _listeners;    
     ConfirmationTab confirmationPopup;
+    private Session session = HibernateUtil.currentSession();
     
     public SalesDomainControllerImpl() {
     	confirmationPopup = new ConfirmationTab();
@@ -52,6 +54,8 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	}
 
 	public List<StockItem> loadWarehouseState() {
+		session.beginTransaction();
+		
 		// XXX mock implementation
 		List<StockItem> dataset = new ArrayList<StockItem>();
 
@@ -60,15 +64,21 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	    StockItem frankfurters = new StockItem(3l, "Frankfurters", "Beer sauseges", 15.0, 12);
 	    StockItem beer = new StockItem(4l, "Free Beer", "Student's delight", 0.0, 100);
 
+	    session.persist(chips);
 		dataset.add(chips);
+		session.persist(chupaChups);
 		dataset.add(chupaChups);
+		session.persist(frankfurters);
 		dataset.add(frankfurters);
+		session.persist(beer);
 		dataset.add(beer);
+		
+		session.getTransaction().commit();
 		
 		return dataset;
 	}
 	
 	public void endSession() {
-	    HibernateUtil.closeSession();
+		//HibernateUtil.closeSession();
 	}
 }
