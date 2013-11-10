@@ -1,11 +1,11 @@
 package ee.ut.math.tvt.salessystem.domain.controller.impl;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.controller.ConfirmationStatusEvent;
@@ -14,6 +14,7 @@ import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
+import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.ConfirmationTab;
 import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
@@ -24,6 +25,8 @@ public class SalesDomainControllerImpl implements SalesDomainController {
     protected Vector<ConfirmationStatusEvent> _listeners;    
     ConfirmationTab confirmationPopup;
     private Session session = HibernateUtil.currentSession();
+    
+    private static final Logger log = Logger.getLogger(StockTableModel.class);
     
     public void addConfirmationStatusListener(ConfirmationStatusEvent listener) {
 		if (_listeners == null) {
@@ -37,10 +40,23 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		if(success) {
 			session.beginTransaction();
 			
+			//Insert the new sale
 			session.save(sale);
+			
+			//Insert the solditems for this sale and decrease quantity for stockitems
 			Set<SoldItem> items = sale.getSoldItems();
 			for(SoldItem item : items) {
 				item.setHistoryItem(sale);
+				StockItem stockItem = item.getStockItem();
+				stockItem.decreaseQuantity(item.getQuantity());
+				
+				try {
+					session.save(stockItem);
+				} catch (Exception e) {
+					log.warn("Save failed, merging instead");
+					session.merge(stockItem);
+				}
+				
 				session.save(item);
 			}
 			
@@ -77,10 +93,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			confirmationPopup.draw().setVisible(true);
 		} catch (ParseException e) {}
 	}
-	
-	private void saleConfirmed(boolean success) {
-		
-	}
 
 	public void cancelCurrentPurchase() throws VerificationFailedException {				
 		// XXX - Cancel current purchase
@@ -110,5 +122,14 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	public void endSession() {
 		//HibernateUtil.closeSession();
+	}
+
+	@Override
+	public void addStock(StockItem Product) {
+		session.beginTransaction();
+		
+		session.saveOrUpdate(Product);
+		
+		session.getTransaction().commit();
 	}
 }
