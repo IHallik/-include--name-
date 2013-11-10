@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.domain.controller;
 
 import java.util.List;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
@@ -54,4 +55,20 @@ public interface SalesDomainController {
      *  Closes the connection to the database
      */
     public void endSession();
+	
+    /**
+     * Load the list of purchases.
+     * 
+     * @return List of ${link
+     *         ee.ut.math.tvt.salessystem.domain.data.HistoryItem}s.
+     */
+	public List<HistoryItem> getSales();
+	
+	/**
+     * Load the list of sold items.
+     * 
+     * @return List of ${link
+     *         ee.ut.math.tvt.salessystem.domain.data.HistoryItem}s.
+     */
+	public List<SoldItem> getSoldItems();
 }
