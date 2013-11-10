@@ -88,27 +88,12 @@ public class SalesSystemUI extends JFrame {
 
 	private void drawWidgets() {
 		tabbedPane = new JTabbedPane();
-		
-		tabs = new SelectableTab[3];
-		tabs[0] = purchaseTab;
-		tabs[1] = stockTab;
-		tabs[2] = historyTab;
 
 		tabbedPane.add("Point-of-sale", purchaseTab.draw());
 		tabbedPane.add("Warehouse", stockTab.draw());
 		tabbedPane.add("History", historyTab.draw());
-		
-		tabbedPane.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				sendSelected();
-			}
-		});
 
 		getContentPane().add(tabbedPane);
-	}
-	
-	private void sendSelected() {
-		tabs[tabbedPane.getSelectedIndex()].onSelected();
 	}
 	
 	private void closeApplication() {

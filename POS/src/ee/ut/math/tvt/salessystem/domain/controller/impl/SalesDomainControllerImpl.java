@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.controller.ConfirmationStatusEvent;
+import ee.ut.math.tvt.salessystem.domain.controller.DataChangedEvent;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
@@ -22,22 +23,40 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
  * Implementation of the sales domain controller.
  */
 public class SalesDomainControllerImpl implements SalesDomainController {	
-    protected Vector<ConfirmationStatusEvent> _listeners;    
+    protected Vector<ConfirmationStatusEvent> confirmListeners;
+    protected Vector<DataChangedEvent> dataListeners;
     ConfirmationTab confirmationPopup;
     private Session session = HibernateUtil.currentSession();
     
     private static final Logger log = Logger.getLogger(StockTableModel.class);
     
     public void addConfirmationStatusListener(ConfirmationStatusEvent listener) {
-		if (_listeners == null) {
-			_listeners = new Vector<ConfirmationStatusEvent>();
+		if (confirmListeners == null) {
+			confirmListeners = new Vector<ConfirmationStatusEvent>();
 		}
 			
-		_listeners.addElement(listener);
+		confirmListeners.addElement(listener);
+	}
+    
+	public void addDataChangedListener(DataChangedEvent listener) {
+    	if (dataListeners == null) {
+    		dataListeners = new Vector<DataChangedEvent>();
+		}
+			
+    	dataListeners.addElement(listener);
+	}
+	
+	private void dataChanged(String type) {
+		if (dataListeners != null) {
+			for(DataChangedEvent e : dataListeners) {
+				e.DataChanged(type);
+			}
+		}
 	}
 	
 	protected void confirmTransaction(HistoryItem sale, boolean success) {
 		if(success) {
+			try {
 			session.beginTransaction();
 			
 			//Insert the new sale
@@ -55,13 +74,20 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			}
 			
 			session.getTransaction().commit();
+			
+			} catch (Exception e) {
+				success = false;
+			}
 		}
 		
-		if (_listeners != null) {
-			for(ConfirmationStatusEvent e : _listeners) {
+		if (confirmListeners != null) {
+			for(ConfirmationStatusEvent e : confirmListeners) {
 				e.SaleConfirmed(success);
 			}
 		}
+		
+		dataChanged("HistoryItem");
+		dataChanged("StockItem");
 	}
     
     public SalesDomainControllerImpl() {
@@ -125,5 +151,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		session.merge(Product);
 		
 		session.getTransaction().commit();
+		dataChanged("StockItem");
 	}
 }

@@ -34,6 +34,7 @@ public class SalesSystemModel {
 
         // populate stock model with data from the warehouse
         updateWarehouseTableModel();
+        updatePurchaseHistoryTableModel();
     }
 
     public StockTableModel getWarehouseTableModel() {

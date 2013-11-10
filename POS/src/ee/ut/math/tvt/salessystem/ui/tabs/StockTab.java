@@ -21,11 +21,12 @@ import javax.swing.table.JTableHeader;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.ConfirmationStatusEvent;
+import ee.ut.math.tvt.salessystem.domain.controller.DataChangedEvent;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 
-public class StockTab implements SelectableTab {
+public class StockTab {
 	private static final Logger log = Logger.getLogger(PurchaseTab.class);
 	private JButton addItem;
 	private SalesSystemModel model;
@@ -73,6 +74,7 @@ public class StockTab implements SelectableTab {
 		gc.weighty = 1.0;
 		gc.fill = GridBagConstraints.BOTH;
 		panel.add(drawStockMainPane(), gc);
+		
 		return panel;
 	}
 
@@ -215,6 +217,14 @@ public class StockTab implements SelectableTab {
 		warehouseTable = new JTable(model.getWarehouseTableModel());
 		JTableHeader header = warehouseTable.getTableHeader();
 		header.setReorderingAllowed(false);
+		
+		model.getDomainController().addDataChangedListener(new DataChangedEvent() {
+			public void DataChanged(String type) throws IllegalArgumentException {
+				if(type.equals("StockItem")) {
+					update();
+				}
+			}
+		});
 
 		JScrollPane scrollPane = new JScrollPane(warehouseTable);
 
@@ -231,9 +241,7 @@ public class StockTab implements SelectableTab {
 		return panel;
 	}
 
-
-	@Override
-	public void onSelected() {
+	public void update() {
 		model.updateWarehouseTableModel();
 	}
 }

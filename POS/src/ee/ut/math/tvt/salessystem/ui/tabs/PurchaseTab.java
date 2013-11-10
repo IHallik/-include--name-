@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
  * Encapsulates everything that has to do with the purchase tab (the tab
  * labeled "Point-of-sale" in the menu).
  */
-public class PurchaseTab implements SelectableTab {
+public class PurchaseTab {
 
 	private static final Logger log = Logger.getLogger(PurchaseTab.class);
 
@@ -287,10 +287,5 @@ public class PurchaseTab implements SelectableTab {
 
 	public void setModel(SalesSystemModel model) {
 		this.model = model;
-	}
-
-
-	@Override
-	public void onSelected() {
 	}
 }

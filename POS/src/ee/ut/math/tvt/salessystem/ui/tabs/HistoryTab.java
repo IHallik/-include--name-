@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import ee.ut.math.tvt.salessystem.domain.controller.DataChangedEvent;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
@@ -20,9 +21,9 @@ import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
- * labelled "History" in the menu).
+ * labeled "History" in the menu).
  */
-public class HistoryTab implements SelectableTab {
+public class HistoryTab {
 
 	SalesSystemModel model;
 	
@@ -54,6 +55,14 @@ public class HistoryTab implements SelectableTab {
 		purchasesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				PurchaseSelected();
+			}
+		});
+		
+		model.getDomainController().addDataChangedListener(new DataChangedEvent() {
+			public void DataChanged(String type) throws IllegalArgumentException {
+				if(type.equals("HistoryItem")) {
+					update();
+				}
 			}
 		});
 
@@ -97,8 +106,7 @@ public class HistoryTab implements SelectableTab {
 		return gc;
 	}
 
-	@Override
-	public void onSelected() {
+	public void update() {
 		model.updatePurchaseHistoryTableModel();
 	}
 }

@@ -17,6 +17,8 @@ public interface SalesDomainController {
      * Add a confirmation status listener to the SalesComainController
      */
 	public void addConfirmationStatusListener(ConfirmationStatusEvent listener);
+	
+	public void addDataChangedListener(DataChangedEvent listener);
 
     /**
      * Load the current state of the warehouse.
@@ -72,5 +74,8 @@ public interface SalesDomainController {
      */
 	public List<SoldItem> getSoldItems();
 
+	/**
+     * Add or update the corresponding StockItem
+     */
 	public void addStock(StockItem Product);
 }
