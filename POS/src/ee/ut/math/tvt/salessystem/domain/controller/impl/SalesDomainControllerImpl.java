@@ -50,13 +50,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 				StockItem stockItem = item.getStockItem();
 				stockItem.decreaseQuantity(item.getQuantity());
 				
-				try {
-					session.save(stockItem);
-				} catch (Exception e) {
-					log.warn("Save failed, merging instead");
-					session.merge(stockItem);
-				}
-				
+				session.saveOrUpdate(stockItem);
 				session.save(item);
 			}
 			
@@ -128,7 +122,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	public void addStock(StockItem Product) {
 		session.beginTransaction();
 		
-		session.saveOrUpdate(Product);
+		session.merge(Product);
 		
 		session.getTransaction().commit();
 	}

@@ -6,3 +6,6 @@
 
 #log files
 *.log
+
+#database lock file
+data/POSdb.lck
