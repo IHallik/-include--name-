@@ -49,7 +49,6 @@ GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.CARDINAL_NUMBER TO PUBLIC
 GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.CHARACTER_DATA TO PUBLIC
 GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.SQL_IDENTIFIER TO PUBLIC
 GRANT DBA TO SA
-SET SCHEMA PUBLIC
 INSERT INTO STOCKITEM VALUES(,'Beer',2.00, 22, 'To get the party going')
 INSERT INTO STOCKITEM VALUES(,'Alexander beer',1.80, 202, 'Great, like the man 24 centuries ago, or our own discus thrower')
 INSERT INTO STOCKITEM VALUES(,'Bock beer',1.20, 782, 'A basketball club in Tartu, local brew')
@@ -71,7 +70,7 @@ INSERT INTO STOCKITEM VALUES(,'Chicken Nuggets',2.10, 35, 'Usain Bolt likes them
 INSERT INTO STOCKITEM VALUES(,'Chicken Wrap',3.10, 56, 'Because we hate chickens')
 INSERT INTO STOCKITEM VALUES(,'Mashed Monkey Brains',28.00, 19, 'House special')
 INSERT INTO STOCKITEM VALUES(,'Sturgeon Caviar',34.00, 71, 'Just because')
-INSERT INTO STOCKITEM VALUES(,'Kangaroo's ankle',125.00, 5, 'When money just keeps flowing in')
+INSERT INTO STOCKITEM VALUES(,'Kangaroo\'s ankle',125.00, 5, 'When money just keeps flowing in')
 INSERT INTO SOLDITEM VALUES(,0,0,1,'Beer', 12, 24.00  )
 INSERT INTO SOLDITEM VALUES(,1,1,7,'4cl Hennessy VSOP cognac', 42, 125.00  )
 INSERT INTO SOLDITEM VALUES(,2,2,2,'Alexander beer', 12, 24.00  )
