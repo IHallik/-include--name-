@@ -99,6 +99,6 @@ public class HistoryTab implements SelectableTab {
 
 	@Override
 	public void onSelected() {
-		purchasesTable.setModel(model.getPurchaseHistoryTableModel());
+		model.updatePurchaseHistoryTableModel();
 	}
 }

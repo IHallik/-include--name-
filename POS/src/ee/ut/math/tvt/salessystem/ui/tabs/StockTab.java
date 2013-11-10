@@ -233,6 +233,6 @@ public class StockTab implements SelectableTab {
 
 	@Override
 	public void onSelected() {
-		warehouseTable.setModel(model.getWarehouseTableModel());
+		model.updateWarehouseTableModel();
 	}
 }
