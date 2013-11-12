@@ -91,6 +91,7 @@
 				<include name="etc/*" />
 			</fileset>
 
+			<file name="conf/hibernate.cfg.xml" />
 			<zipgroupfileset dir="${lib.dir}" includes="*.jar" />
 			<zipgroupfileset dir="${lib.hibernate.dir}" includes="*.jar" />
 			<manifest>
