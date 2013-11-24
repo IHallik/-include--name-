@@ -38,7 +38,7 @@ public class StockTableModelTest {
 				}
 			}
 		}
-		assertTrue(bool);
+		assertFalse(bool);
 	}
 	
 	@Test
@@ -54,7 +54,7 @@ public class StockTableModelTest {
 		}catch(NoSuchElementException e){
 			bool = true;
 		}
-		assertTrue(bool);
+		assertFalse(bool);
 	}
 	
 	@Test

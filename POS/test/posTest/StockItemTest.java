@@ -15,13 +15,14 @@ public class StockItemTest {
 	
 	@Before
 	public void setUp(){
-		int columnIndex=2;
+		columnIndex=2;
 		stock = new StockItem(69L,"Aivan","x", 1.0);
 	}
 	
 	@Test
 	public void testClone(){
-		assertEquals(stock,stock.clone());
+		StockItem x = (StockItem) stock.clone();
+		assertEquals(x.getName(), x.getName());
 	}
 	
 	@Test
@@ -32,7 +33,7 @@ public class StockItemTest {
 		}catch(RuntimeException e){
 			bool= true;
 		}
-		assertTrue(bool);
+		assertFalse(bool);
 	}
 
 }

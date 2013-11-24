@@ -24,37 +24,39 @@ public class SaleTest {
 		// TODO Vaja gettida see data, mitte hardcodeda stockitemit imo
 		stock = new StockItem(0L,"Ivan", "x", 1.0);
 		sold = new SoldItem(stock, 10);
+		tableModel = new PurchaseInfoTableModel();
 		tableModel.addItem(sold);
 		
 	}
 	
 	@Test
-	public void testAddSoldItem(SoldItem x){
+	public void testAddSoldItem(){
 		boolean thrown = false;
 		try{
-			tableModel.addItem(x);
+			tableModel.addItem(new SoldItem(new StockItem(1L, "Vani", "y", 10), 1));
 		}catch(IllegalArgumentException e){
 			thrown=true;
 		}
-		assertTrue(thrown);
+		assertFalse(thrown);
+		assertEquals(tableModel.getRowCount(), 2);
 	}
 	
 	@Test
 	public void testGetSumWithNoItems(){
 		tableModel=new PurchaseInfoTableModel();
-		assertEquals(tableModel.getColumnCount(),0);
+		assertEquals(tableModel.getRowCount(),0);
 	}
 	
 	
 	@Test
 	public void testGetSumWithOneItem(){
-		assertEquals(tableModel.getColumnCount(),1);
+		assertEquals(tableModel.getRowCount(),1);
 	}
 	
 	@Test
 	public void testGetSumWithMultipleItems(){
 		tableModel.addItem(new SoldItem(new StockItem(1L, "Vasja", "xy", 2.0),20));
-		assertTrue(tableModel.getColumnCount()>=2);
+		assertTrue(tableModel.getRowCount()>=2);
 		
 	}
 	
