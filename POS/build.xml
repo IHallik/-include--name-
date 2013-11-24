@@ -8,6 +8,8 @@
 	<property name="lib.dir"			value="${basedir}/lib"/>
 	<property name="etc.dir"			value="${basedir}/etc"/>
 	<property name="conf.dir"			value="${basedir}/conf"/>
+	<property name="test.dir"			value="${basedir}/test"/>
+	<property name="build.test.dir"		value="${build.dir}/test"/>
 
 	<!-- database variables -->
 	<property name="data.dir"			value="${basedir}/data"/>
@@ -29,6 +31,23 @@
 		<pathelement location="${build.classes.dir}"/>
 		<pathelement location="${etc.dir}"/>
 		<pathelement location="${conf.dir}"/>
+
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+
+		<fileset dir="${lib.hibernate.dir}">
+             <include name="*.jar"/>
+        </fileset>
+	</path>
+		
+	<path id="test.classpath">
+		<pathelement location="${basedir}"/>
+		<pathelement location="${build.classes.dir}"/>
+		<pathelement location="${build.test.dir}"/>
+		<pathelement location="${etc.dir}"/>
+		<pathelement location="${conf.dir}"/>
+		<pathelement location="${test.dir}"/>
 
 		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
@@ -166,6 +185,33 @@
 			fork="yes">
 			<arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" /> 
 		</java>
+	</target>
+	
+	<target name="build-tests" depends="build">
+		<mkdir dir="${build.test.dir}"/>
+		<javac
+				srcdir="${test.dir}"
+				destdir="${build.test.dir}"
+				debug="true"
+				debuglevel="lines,vars,source"
+				encoding="utf-8"
+				compiler="modern"
+				target="1.7"
+				source="1.7"
+				includeantruntime="false">
+				<classpath refid="run.classpath"/>
+		</javac>			
+	</target>
+	
+	<target name="test" depends="build-tests">
+		<junit>
+			<classpath refid="test.classpath" />
+
+			<formatter type="brief" usefile="false" />
+			<batchtest>
+				<fileset dir="${build.test.dir}" includes="**/*.class" />
+			</batchtest>
+		</junit>
 	</target>
 </project>
 
