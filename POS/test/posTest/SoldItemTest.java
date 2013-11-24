@@ -19,18 +19,19 @@ public class SoldItemTest {
 	public void setUp(){
 		// TODO Vaja gettida see data, mitte hardcodeda stockitemit imo
 		stock = new StockItem(0L,"Ivan", "x", 1.0);
-		sold = new SoldItem(stock, 10);
 	}
 	
 	
 	@Test
 	public void testGetSum(){
-		assertEquals(sold.getSum(),1,0*10);
+		sold = new SoldItem(stock, 10);
+		assertEquals(sold.getSum(),10.0,0.001);
 		
 	}
 	
 	@Test
 	public void testGetSumWithZeroQuantity(){
+		sold = new SoldItem(stock, 0);
 		assertEquals((int)sold.getQuantity(),0);
 	}
 
