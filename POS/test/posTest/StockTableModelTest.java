@@ -1,8 +1,8 @@
 package posTest;
 
-import static org.junit.Assert.*;
-
 import java.util.NoSuchElementException;
+
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import org.junit.Test;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 
-public class StockTableModelTest {
+public class StockTableModelTest extends TestCase {
 	
 	private StockTableModel stock;
 	private int quantity = 10;

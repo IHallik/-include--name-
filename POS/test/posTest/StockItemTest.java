@@ -1,13 +1,13 @@
 package posTest;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
-public class StockItemTest {
+public class StockItemTest extends TestCase {
 	
 	
 	private StockItem stock;
@@ -22,7 +22,7 @@ public class StockItemTest {
 	@Test
 	public void testClone(){
 		StockItem x = (StockItem) stock.clone();
-		assertEquals(x.getName(), x.getName());
+		assertNotSame(stock, x);
 	}
 	
 	@Test

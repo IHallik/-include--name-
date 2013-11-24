@@ -1,6 +1,6 @@
 package posTest;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +8,7 @@ import org.junit.Test;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
-public class SoldItemTest {
+public class SoldItemTest extends TestCase {
 	
 	
 	private SoldItem sold;
@@ -17,7 +17,6 @@ public class SoldItemTest {
 	
 	@Before
 	public void setUp(){
-		// TODO Vaja gettida see data, mitte hardcodeda stockitemit imo
 		stock = new StockItem(0L,"Ivan", "x", 1.0);
 	}
 	
@@ -32,7 +31,7 @@ public class SoldItemTest {
 	@Test
 	public void testGetSumWithZeroQuantity(){
 		sold = new SoldItem(stock, 0);
-		assertEquals((int)sold.getQuantity(),0);
+		assertEquals(sold.getQuantity(),0.0,0.001);
 	}
 
 }
