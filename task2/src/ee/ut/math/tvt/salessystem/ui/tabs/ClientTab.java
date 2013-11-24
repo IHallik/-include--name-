@@ -3,12 +3,14 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import ee.ut.math.tvt.salessystem.domain.data.Client;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 
@@ -34,9 +36,6 @@ public class ClientTab {
 
         return panel;
     }
-
-    
-
     
     private Component drawClientsTable() {
 
@@ -54,9 +53,12 @@ public class ClientTab {
         
         return panel;
     }
-
-
     
+    public void refresh() {
+    	List<Client> clients = model.getDomainController().getAllClients();
+        model.getClientTableModel().populateWithData(clients);
+    }
+
     private GridBagConstraints getGbConstraints() {
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.BOTH;
@@ -64,6 +66,5 @@ public class ClientTab {
         gc.weightx = 1.0;
         gc.weighty = 1.0;
         return gc;
-    }    
-    
+    }
 }

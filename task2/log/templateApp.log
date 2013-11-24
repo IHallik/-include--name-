@@ -1,11 +1,22 @@
-2009-10-18 16:20:54,517 [main] DEBUG - Strating SalesSystem with the Swing UI ..
-2009-10-18 16:20:54,985 [main] INFO - 4 items loaded from disk
-2009-10-18 16:20:55,001 [main] INFO - 1 clients loaded from disk
-2009-10-18 16:20:55,016 [main] INFO - 7 Sales loaded from disk
-2009-10-18 16:20:55,859 [main] INFO - SalesSystem started
-2009-10-18 16:22:11,270 [AWT-EventQueue-0] DEBUG -  === Comparing: kohv vs. Layz krõpsud
-2009-10-18 16:22:11,270 [AWT-EventQueue-0] DEBUG -  === Comparing: kohv vs. Õlle vorstikesed
-2009-10-18 16:22:11,270 [AWT-EventQueue-0] DEBUG -  === Comparing: kohv vs. Pähklid
-2009-10-18 16:22:11,286 [AWT-EventQueue-0] DEBUG -  === Comparing: kohv vs. Kõrsikud 
-2009-10-18 16:22:11,332 [AWT-EventQueue-0] INFO - Added new stockItem : kohv
-2009-10-18 16:22:16,200 [AWT-EventQueue-0] INFO - SalesSystem closed
+2013-11-24 23:53:19,439 [main] DEBUG - Strating SalesSystem with the Swing UI ..
+2013-11-24 23:53:19,900 [main] INFO - SalesSystem started
+2013-11-24 23:53:21,821 [AWT-EventQueue-0] INFO - 6 items loaded from disk
+2013-11-24 23:53:22,406 [AWT-EventQueue-0] INFO - 10 Sales loaded from disk
+2013-11-24 23:53:22,828 [AWT-EventQueue-0] INFO - 1 clients loaded from disk
+2013-11-24 23:53:23,650 [AWT-EventQueue-0] INFO - 10 Sales loaded from disk
+2013-11-24 23:53:23,931 [AWT-EventQueue-0] INFO - 6 items loaded from disk
+2013-11-24 23:53:25,177 [AWT-EventQueue-0] INFO - New sale process started
+2013-11-24 23:53:25,177 [AWT-EventQueue-0] INFO - New purchase started
+2013-11-24 23:53:25,180 [AWT-EventQueue-0] INFO - 1 clients loaded from disk
+2013-11-24 23:53:25,916 [AWT-EventQueue-0] INFO - Client Toomas with ID=1 got selected.
+2013-11-24 23:53:28,145 [AWT-EventQueue-0] DEBUG - Added Kõrsikud  quantity of 2
+2013-11-24 23:53:30,889 [AWT-EventQueue-0] DEBUG - Found existing item Kõrsikud  increased quantity by 1
+2013-11-24 23:53:33,544 [AWT-EventQueue-0] INFO - Sale complete
+2013-11-24 23:53:33,545 [AWT-EventQueue-0] DEBUG - Contents of the current basket:
+Id	Name	Price	Quantity	Sum	
+null	Kõrsikud 	7.0	3	21.0	
+
+2013-11-24 23:53:35,106 [AWT-EventQueue-0] INFO - 6 items loaded from disk
+2013-11-24 23:53:37,619 [AWT-EventQueue-0] INFO - 11 Sales loaded from disk
+2013-11-24 23:53:40,738 [AWT-EventQueue-0] INFO - 1 clients loaded from disk
+2013-11-24 23:53:43,050 [AWT-EventQueue-0] INFO - SalesSystem closed

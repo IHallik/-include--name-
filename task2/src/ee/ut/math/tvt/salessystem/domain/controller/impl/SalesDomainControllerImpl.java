@@ -7,7 +7,6 @@ import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.util.HibernateUtil;
-import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -44,7 +43,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
         return result;
     }
 
-
     @SuppressWarnings("unchecked")
     public List<Client> getAllClients() {
         List<Client> clients =
@@ -59,44 +57,35 @@ public class SalesDomainControllerImpl implements SalesDomainController {
         return (Client) session.get(Client.class, id);
     }
 
-
     private StockItem getStockItem(long id) {
         return (StockItem) session.get(StockItem.class, id);
     }
 
-
-    public void submitCurrentPurchase(List<SoldItem> soldItems, Client currentClient) {
-
+    public void registerPurchase(Sale currentSale) {
         // Begin transaction
         Transaction tx = session.beginTransaction();
-
-        // construct new sale object
-        Sale sale = new Sale(soldItems);
-        //sale.setId(null);
-        sale.setSellingTime(new Date());
-
-        // set client who made the sale
-        sale.setClient(currentClient);
+        
+        if(currentSale == null) {
+        	throw new NullPointerException("Submitting purchase where sale is null.");
+        }
 
         // Reduce quantities of stockItems in warehouse
-        for (SoldItem item : soldItems) {
+        for (SoldItem item : currentSale.getSoldItems()) {
             // Associate with current sale
-            item.setSale(sale);
+            item.setSale(currentSale);
 
             StockItem stockItem = getStockItem(item.getStockItem().getId());
             stockItem.setQuantity(stockItem.getQuantity() - item.getQuantity());
             session.save(stockItem);
         }
 
-        session.save(sale);
+        session.save(currentSale);
 
         // end transaction
         tx.commit();
 
-        model.getPurchaseHistoryTableModel().addRow(sale);
-
+        model.getPurchaseHistoryTableModel().addRow(currentSale);
     }
-
 
     public void createStockItem(StockItem stockItem) {
         // Begin transaction
@@ -107,23 +96,17 @@ public class SalesDomainControllerImpl implements SalesDomainController {
         log.info("Added new stockItem : " + stockItem);
     }
 
-
     public void cancelCurrentPurchase() {
-        // XXX - Cancel current purchase
         log.info("Current purchase canceled");
     }
 
     public void startNewPurchase() {
-        // XXX - Start new purchase
         log.info("New purchase started");
     }
-
-
 
     public void setModel(SalesSystemModel model) {
         this.model = model;
     }
-
 
     public Sale getSale(Long id) {
         return (Sale) session.get(Sale.class, id);
@@ -133,5 +116,4 @@ public class SalesDomainControllerImpl implements SalesDomainController {
     public void endSession() {
         HibernateUtil.closeSession();
     }
-
 }
