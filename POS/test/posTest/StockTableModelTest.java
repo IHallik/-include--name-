@@ -1,74 +1,49 @@
 package posTest;
 
-import java.util.NoSuchElementException;
+import static org.junit.Assert.assertEquals;
 
-import junit.framework.TestCase;
+import java.util.NoSuchElementException;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 
-public class StockTableModelTest extends TestCase {
+public class StockTableModelTest {
 	
-	private StockTableModel stock;
-	private int quantity = 10;
-	private StockItem item;
-	private Long id;
-	
+	private StockTableModel stm;
+	private StockItem stockitem;
+	private SoldItem solditem;
 	
 	@Before
 	public void setUp(){
+		stockitem = new StockItem(88L, "Ussripik", "just nii ongi", 42.0, 12);
+		solditem = new SoldItem(stockitem, 20);
 		
-		item = new StockItem(88L, "Ussripik", "just nii ongi", 42.0, 17);
-		stock = new StockTableModel();
-		stock.addItem(item);
-		id=item.getId();
+		stm = new StockTableModel();
+		stm.addItem(stockitem);
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testValidateNameUniqueness(){
-		boolean bool = false;
-		for(long i=0; i<stock.getRowCount();i++){
-			for(long j=i+1;j<stock.getRowCount();j++){
-				if(stock.getItemById(i).getName().equals(stock.getItemById(j).getName())){
-					bool=true;
-					break;
-				}
-			}
-		}
-		assertFalse(bool);
+		StockItem item = new StockItem(72L, "Ussripik", "just nii ongi", 42.0, 12);
+		stm.addItem(item);
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testHasEnoughInStock(){
-		assertTrue(stock.getItemById(item.getId()).getQuantity()>=quantity);
+		stm.removeItem(solditem);
 	}
 	
 	@Test
 	public void testGetItemByIdWhenItemExists(){
-		boolean bool = false;
-		try{
-			stock.getItemById(id);
-		}catch(NoSuchElementException e){
-			bool = true;
-		}
-		assertFalse(bool);
+		assertEquals(stm.getItemById(88L).getId(), new Long(88L));
 	}
 	
-	@Test
+	@Test(expected = NoSuchElementException.class)
 	public void testGetItemByIdWhenThrowsException(){
-		id =72L;
-		boolean bool = false;
-		try{
-			stock.getItemById(id);
-		}catch(NoSuchElementException e){
-			bool = true;
-		}
-		assertTrue(bool);
+		stm.getItemById(70L);
 	}
-	
-	
-
 }

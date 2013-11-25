@@ -44,11 +44,23 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 	public void addItem(final StockItem stockItem) {
 		try {
 			StockItem item = getItemById(stockItem.getId());
+			
 			item.setQuantity(item.getQuantity() + stockItem.getQuantity());
+			item.setName(stockItem.getName());
+			item.setDescription(stockItem.getDescription());
+			item.setPrice(stockItem.getPrice());
+			
 			log.debug("Found existing item " + stockItem.getName()
 					+ " increased quantity by " + stockItem.getQuantity());
 		}
 		catch (NoSuchElementException e) {
+			//Check for name uniqueness
+			for(StockItem check : getTableRows()) {
+				if(check.getName() == stockItem.getName()) {
+					throw new IllegalArgumentException("Stockitem with same name but different id exists");
+				}
+			}
+			
 			rows.add(stockItem);
 			log.debug("Added " + stockItem.getName()
 					+ " quantity of " + stockItem.getQuantity());

@@ -1,9 +1,6 @@
 package posTest;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,62 +9,42 @@ import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseHistoryTableModel;
+import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 
-public class PurchaseHistoryTableModelTest extends TestCase {
+public class PurchaseHistoryTableModelTest {
 	
 	private PurchaseHistoryTableModel phm;
+	private PurchaseInfoTableModel pim;
 	private HistoryItem hm;	
 	
 	@Before
 	public void setUp(){
+		pim = new PurchaseInfoTableModel();
 		phm = new PurchaseHistoryTableModel();
+		
 		SoldItem i1= new SoldItem(new StockItem(0L,"Burks","b",2.0,10),3);
 		SoldItem i2 = new SoldItem(new StockItem(1L, "bruksKallim","b2",4.0,20),5);
-		HashSet<SoldItem> ls = new HashSet<SoldItem>();
-		ls.add(i1);
-		ls.add(i2);
-		hm = new HistoryItem(new ArrayList<SoldItem>(ls));
-		phm.addItem(hm);
+		
+		pim.addItem(i1);
+		pim.addItem(i2);
+		
+		phm.addItem(new HistoryItem(pim.getTableRows()));
+		
+		hm = new HistoryItem(pim.getTableRows());
 	}
 	
 	@Test
 	public void testGetColumnValue(){
-		boolean b = false;
-		try{
-			//phm.getColumnValue(hm,0);			This can't be used due to protected
-			hm.getColumn(0);
-		}catch(IllegalArgumentException e){
-			b= true;
-		}
-		assertFalse(b);
+		assertEquals(hm.getOrderDateString(), phm.getValueAt(0, 1));
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testGetColumnValueException(){
-		boolean b = false;
-		try{
-			hm.getColumn(88);
-		}catch(RuntimeException e){
-			b= true;
-		}
-		assertTrue(b);
+		phm.getValueAt(0, 100);
 	}
 	
 	@Test
-	public void testAddItem(){
-		
-		boolean b = false;
-		try{
-			SoldItem i1= new SoldItem(new StockItem(0L,"Burks","b",2.0,10),32);
-			SoldItem i2 = new SoldItem(new StockItem(1L, "bruksKallim","b2",4.0,20),65);
-			HashSet<SoldItem> ls = new HashSet<SoldItem>();
-			ls.add(i1);
-			ls.add(i2);
-			hm = new HistoryItem(new ArrayList<SoldItem>(ls));
-			phm.addItem(hm);
-		}catch(IllegalArgumentException e){
-			b=true;
-		}
-		assertFalse(b);
+	public void testAddItem() {
+		phm.addItem(hm);
 	}
 }

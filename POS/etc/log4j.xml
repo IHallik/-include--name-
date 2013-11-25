@@ -9,12 +9,12 @@
     </layout> 
   </appender>
   <!-- Adding this, just in case we need debugging in a further release -->
-  <!--
+  
   <logger name="ee.ut.math.tvt.includeName" additivity="false">
     <level value="debug" /> 
     <appender-ref ref="consoleAppender"/>
   </logger>
-  -->
+  
   <!-- Uncomment for variables in SQL querys
   <logger name="org.hibernate.type" additivity="false">
   	<level value="TRACE"/>
